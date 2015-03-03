@@ -18,6 +18,8 @@ public class Main {
         // TODO code application logic here
         Tablero tab=new Tablero();
         tab.crear();
+        tab.minas();
+        tab.visualizar();
     }
     
 }
