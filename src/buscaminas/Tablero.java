@@ -2,8 +2,8 @@ package buscaminas;
 
 public class Tablero {
 
-    private static final int TAM = 10; //Tamaño de los arrays
-    private static final int MINAS = 10;
+    public static final int TAM = 10; //Tamaño de los arrays
+    public static final int MINAS = 10;
     private int[] col = new int[TAM]; //Array de columnas
     private int[] fil = new int[TAM]; //Array de filas
     private int[][] tab = new int[fil.length][col.length]; //Matriz tablero
@@ -44,8 +44,8 @@ public class Tablero {
                 cont = false;
                 aux1[i] = 0;
                 aux2[i] = 0;
-                posM1 = (int) (Math.random() * (TAM - 2)) + 1;
-                posM2 = (int) (Math.random() * (TAM - 2)) + 1;
+                posM1 = (int) (Math.random() * (TAM));
+                posM2 = (int) (Math.random() * (TAM));
 
                 for (int j = 0; j < aux1.length - 1; j++) {
                     if (aux1[j] == posM1 && aux2[j] == posM2) {
@@ -58,40 +58,97 @@ public class Tablero {
 
             //Todo el codigo de aqui arriba es para generar numeros sin repetir.
             //Y aqui abajo cambia los numeros alrededor de las minas para que cuente el numero de minas en contacto
+            //¿Porque hay dos "if" o incluso 3? para que no salten errores de outOfBounds al poner minas en los extremos del tablero.
             System.out.println(posM1 + " " + posM2);
             tab[posM1][posM2] = 9; //MINA = 9
-
-            if (tab[posM1 + 1][posM2] != 9) {
-                tab[posM1 + 1][posM2] = tab[posM1 + 1][posM2] + 1;
-
+            if (posM1 != 9) {
+                if (tab[posM1 + 1][posM2] != 9) {
+                    tab[posM1 + 1][posM2] = tab[posM1 + 1][posM2] + 1;
+                }
+                /*
+                 0 0 0
+                 0 x 0
+                 0 1 0
+                 */
+            }
+            if (posM1 != 0) {
+                if (tab[posM1 - 1][posM2] != 9) {
+                    tab[posM1 - 1][posM2] = tab[posM1 - 1][posM2] + 1;
+                }
+                /*
+                 0 1 0
+                 0 x 0
+                 0 0 0
+                 */
+            }
+            if (posM2 != 9) {
+                if (tab[posM1][posM2 + 1] != 9) {
+                    tab[posM1][posM2 + 1] = tab[posM1][posM2 + 1] + 1;
+                }
+                /*
+                 0 0 0
+                 0 x 1
+                 0 0 0
+                 */
             }
 
-            if (tab[posM1 - 1][posM2] != 9) {
-                tab[posM1 - 1][posM2] = tab[posM1 - 1][posM2] + 1;
+            if (posM2 != 0) {
+                if (tab[posM1][posM2 - 1] != 9) {
+                    tab[posM1][posM2 - 1] = tab[posM1][posM2 - 1] + 1;
+                }
+                /*
+                 0 0 0
+                 1 x 0
+                 0 0 0
+                 */
             }
-
-            if (tab[posM1][posM2 + 1] != 9) {
-                tab[posM1][posM2 + 1] = tab[posM1][posM2 + 1] + 1;
+            if (posM1 != 9) {
+                if (posM2 != 0) {
+                    if (tab[posM1 + 1][posM2 - 1] != 9) {
+                        tab[posM1 + 1][posM2 - 1] = tab[posM1 + 1][posM2 - 1] + 1;
+                    }
+                    /*
+                     0 0 0
+                     0 x 0
+                     1 0 0
+                     */
+                }
             }
-
-            if (tab[posM1][posM2 - 1] != 9) {
-                tab[posM1][posM2 - 1] = tab[posM1][posM2 - 1] + 1;
+            if (posM1 != 9) {
+                if (posM2 != 9) {
+                    if (tab[posM1 + 1][posM2 + 1] != 9) {
+                        tab[posM1 + 1][posM2 + 1] = tab[posM1 + 1][posM2 + 1] + 1;
+                    }
+                    /*
+                     0 0 0
+                     0 x 0
+                     0 0 1
+                     */
+                }
             }
-
-            if (tab[posM1 + 1][posM2 - 1] != 9) {
-                tab[posM1 + 1][posM2 - 1] = tab[posM1 + 1][posM2 - 1] + 1;
+            if (posM1 != 0) {
+                if (posM2 != 0) {
+                    if (tab[posM1 - 1][posM2 - 1] != 9) {
+                        tab[posM1 - 1][posM2 - 1] = tab[posM1 - 1][posM2 - 1] + 1;
+                    }
+                    /*
+                     1 0 0
+                     0 x 0
+                     0 0 0
+                     */
+                }
             }
-
-            if (tab[posM1 + 1][posM2 + 1] != 9) {
-                tab[posM1 + 1][posM2 + 1] = tab[posM1 + 1][posM2 + 1] + 1;
-            }
-
-            if (tab[posM1 - 1][posM2 - 1] != 9) {
-                tab[posM1 - 1][posM2 - 1] = tab[posM1 - 1][posM2 - 1] + 1;
-            }
-
-            if (tab[posM1 - 1][posM2 + 1] != 9) {
-                tab[posM1 - 1][posM2 + 1] = tab[posM1 - 1][posM2 + 1] + 1;
+            if (posM1 != 0) {
+                if (posM2 != 9) {
+                    if (tab[posM1 - 1][posM2 + 1] != 9) {
+                        tab[posM1 - 1][posM2 + 1] = tab[posM1 - 1][posM2 + 1] + 1;
+                    }
+                    /*
+                     0 0 1
+                     0 x 0
+                     0 0 0
+                     */
+                }
             }
         }
     }
