@@ -13,6 +13,7 @@ public class Tablero extends JFrame implements ActionListener {
     private static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Arial", Font.BOLD, 25);
+    private JButton bLimpiar;
 
     public Tablero() {
         ventana = new JFrame();
@@ -30,7 +31,7 @@ public class Tablero extends JFrame implements ActionListener {
         ventana.setMinimumSize(new Dimension(800, 600));
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
-        this.limpiarTablero();
+        this.crear();
         ventana.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent ev) {
@@ -56,7 +57,7 @@ public class Tablero extends JFrame implements ActionListener {
 
     private JPanel creaPanelJuegoNuevo() {
         JPanel panel = new JPanel();
-        JButton bLimpiar;
+        
         panel.add(bLimpiar = new JButton("New Game"), BorderLayout.CENTER);
         bLimpiar.addActionListener(this);
         return panel;
@@ -75,6 +76,7 @@ public class Tablero extends JFrame implements ActionListener {
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
                 tab[i][j] = 0;
+                botonMatriz[i][j].setText(null);
             }
         }
     }
@@ -226,9 +228,17 @@ public class Tablero extends JFrame implements ActionListener {
                 }
                 if (evBoton.equals(botonMatriz[i][j])) {
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
-                } else if (tab[i][j] == 9);
+                }
+                if(bLimpiar.equals(evBoton)){
+                    this.crear();
+                    botonMatriz[i][j].setIcon(null);
+                    this.minas();
+                    
+                }
             }
         }
 
     }
 }
+// 
+
