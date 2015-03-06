@@ -24,14 +24,13 @@ public class Tablero extends JFrame implements ActionListener {
         ventana.setIconImage(icono.getImage());
 
         botonMatriz = new JButton[TAM][TAM];
-
+        ventana.getContentPane().add(scoreTime(),BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
         ventana.getContentPane().add(creaPanelJuegoNuevo(), BorderLayout.SOUTH);
         ventana.pack();
         ventana.setMinimumSize(new Dimension(800, 600));
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
-        this.crear();
         ventana.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent ev) {
@@ -39,7 +38,12 @@ public class Tablero extends JFrame implements ActionListener {
             }
         });
     }
-
+    private JPanel scoreTime(){
+        JPanel panel=new JPanel();
+        JLabel scoreT;
+        panel.add(scoreT=new JLabel("tempo"),BorderLayout.WEST);
+        return panel;
+    }
     private JPanel creaPanelBotones() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(TAM, TAM, 0, 0));
@@ -224,9 +228,9 @@ public class Tablero extends JFrame implements ActionListener {
             for (int j = 0; j < 10; j++) {
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == 9) {
                     botonMatriz[i][j].setIcon(icono);
-                    botonMatriz[i][j].setText(null);
+                    
                 }
-                if (evBoton.equals(botonMatriz[i][j])) {
+                if (evBoton.equals(botonMatriz[i][j])&& tab[i][j] != 9) {
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
                 }
                 if(bLimpiar.equals(evBoton)){
