@@ -22,7 +22,7 @@ public class Tablero extends JFrame implements ActionListener {
         ventana.setSize(800, 600);
         ventana.setVisible(true);
         ventana.setIconImage(icono.getImage());
-
+        ventana.setBackground(Color.BLACK);
         botonMatriz = new JButton[TAM][TAM];
         ventana.getContentPane().add(scoreTime(),BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
@@ -54,6 +54,7 @@ public class Tablero extends JFrame implements ActionListener {
                 botonMatriz[i][j].addActionListener(this);
                 botonMatriz[i][j].setFont(fuente);
                 panel.add(botonMatriz[i][j]);
+                
             }
         }
         return panel;
@@ -228,7 +229,14 @@ public class Tablero extends JFrame implements ActionListener {
             for (int j = 0; j < 10; j++) {
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == 9) {
                     botonMatriz[i][j].setIcon(icono);
-                    
+                    for (int k = 0; k < 10; k++) {
+                        for (int l = 0; l < 10; l++) {
+                            if (tab[k][l]==9){
+                                botonMatriz[k][l].setIcon(icono);
+                            }else{
+                            botonMatriz[k][l].setText(String.valueOf(tab[k][l]));
+                        }}
+                    }
                 }
                 if (evBoton.equals(botonMatriz[i][j])&& tab[i][j] != 9) {
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
