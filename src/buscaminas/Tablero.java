@@ -7,13 +7,14 @@ import javax.swing.*;
 public class Tablero extends JFrame implements ActionListener {
 
     private static final int TAM = 10; //Tamaño de los arrays
-    private static final int MINAS = 10;
+    private static final int MINA = 9;
     private final int[][] tab = new int[TAM][TAM]; //Matriz tablero
     private static JFrame ventana;
     private static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Arial", Font.BOLD, 25);
     private JButton bLimpiar;
+    private int contador = 0;
 
     public Tablero() {
         ventana = new JFrame();
@@ -24,7 +25,7 @@ public class Tablero extends JFrame implements ActionListener {
         ventana.setIconImage(icono.getImage());
         ventana.setBackground(Color.BLACK);
         botonMatriz = new JButton[TAM][TAM];
-        ventana.getContentPane().add(scoreTime(),BorderLayout.NORTH);
+        ventana.getContentPane().add(scoreTime(), BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
         ventana.getContentPane().add(creaPanelJuegoNuevo(), BorderLayout.SOUTH);
         ventana.pack();
@@ -38,12 +39,14 @@ public class Tablero extends JFrame implements ActionListener {
             }
         });
     }
-    private JPanel scoreTime(){
-        JPanel panel=new JPanel();
+
+    private JPanel scoreTime() {
+        JPanel panel = new JPanel();
         JLabel scoreT;
-        panel.add(scoreT=new JLabel("tempo"),BorderLayout.WEST);
+        panel.add(scoreT = new JLabel("tempo"), BorderLayout.WEST);
         return panel;
     }
+
     private JPanel creaPanelBotones() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(TAM, TAM, 0, 0));
@@ -54,7 +57,7 @@ public class Tablero extends JFrame implements ActionListener {
                 botonMatriz[i][j].addActionListener(this);
                 botonMatriz[i][j].setFont(fuente);
                 panel.add(botonMatriz[i][j]);
-                
+
             }
         }
         return panel;
@@ -62,7 +65,7 @@ public class Tablero extends JFrame implements ActionListener {
 
     private JPanel creaPanelJuegoNuevo() {
         JPanel panel = new JPanel();
-        
+
         panel.add(bLimpiar = new JButton("New Game"), BorderLayout.CENTER);
         bLimpiar.addActionListener(this);
         return panel;
@@ -90,7 +93,7 @@ public class Tablero extends JFrame implements ActionListener {
         for (int i = 0; i < tab.length; i++) {
             System.out.print("\n");
             for (int j = 0; j < tab[i].length; j++) {
-                if (tab[i][j] == 9) {
+                if (tab[i][j] == MINA) {
                     System.out.print("x" + "\t");
                 } else {
                     System.out.print(tab[i][j] + "\t");
@@ -104,7 +107,7 @@ public class Tablero extends JFrame implements ActionListener {
         int[] aux1 = new int[TAM];
         int[] aux2 = new int[TAM];
 
-        for (int i = 0; i < MINAS; i++) {
+        for (int i = 0; i < TAM; i++) {
             int posM1;
             int posM2;
             boolean cont;
@@ -129,9 +132,9 @@ public class Tablero extends JFrame implements ActionListener {
             //Y aqui abajo cambia los numeros alrededor de las minas para que cuente el numero de minas en contacto
             //¿Porque hay dos "if" o incluso 3? para que no salten errores de outOfBounds al poner minas en los extremos del tablero.
             System.out.println(posM1 + " " + posM2);
-            tab[posM1][posM2] = 9; //MINA = 9
-            if (posM1 != 9) {
-                if (tab[posM1 + 1][posM2] != 9) {
+            tab[posM1][posM2] = MINA; //MINA = 9
+            if (posM1 != MINA) {
+                if (tab[posM1 + 1][posM2] != MINA) {
                     tab[posM1 + 1][posM2] = tab[posM1 + 1][posM2] + 1;
                 }
                 /*
@@ -141,7 +144,7 @@ public class Tablero extends JFrame implements ActionListener {
                  */
             }
             if (posM1 != 0) {
-                if (tab[posM1 - 1][posM2] != 9) {
+                if (tab[posM1 - 1][posM2] != MINA) {
                     tab[posM1 - 1][posM2] = tab[posM1 - 1][posM2] + 1;
                 }
                 /*
@@ -150,8 +153,8 @@ public class Tablero extends JFrame implements ActionListener {
                  0 0 0
                  */
             }
-            if (posM2 != 9) {
-                if (tab[posM1][posM2 + 1] != 9) {
+            if (posM2 != MINA) {
+                if (tab[posM1][posM2 + 1] != MINA) {
                     tab[posM1][posM2 + 1] = tab[posM1][posM2 + 1] + 1;
                 }
                 /*
@@ -162,7 +165,7 @@ public class Tablero extends JFrame implements ActionListener {
             }
 
             if (posM2 != 0) {
-                if (tab[posM1][posM2 - 1] != 9) {
+                if (tab[posM1][posM2 - 1] != MINA) {
                     tab[posM1][posM2 - 1] = tab[posM1][posM2 - 1] + 1;
                 }
                 /*
@@ -171,9 +174,9 @@ public class Tablero extends JFrame implements ActionListener {
                  0 0 0
                  */
             }
-            if (posM1 != 9) {
+            if (posM1 != MINA) {
                 if (posM2 != 0) {
-                    if (tab[posM1 + 1][posM2 - 1] != 9) {
+                    if (tab[posM1 + 1][posM2 - 1] != MINA) {
                         tab[posM1 + 1][posM2 - 1] = tab[posM1 + 1][posM2 - 1] + 1;
                     }
                     /*
@@ -183,9 +186,9 @@ public class Tablero extends JFrame implements ActionListener {
                      */
                 }
             }
-            if (posM1 != 9) {
-                if (posM2 != 9) {
-                    if (tab[posM1 + 1][posM2 + 1] != 9) {
+            if (posM1 != MINA) {
+                if (posM2 != MINA) {
+                    if (tab[posM1 + 1][posM2 + 1] != MINA) {
                         tab[posM1 + 1][posM2 + 1] = tab[posM1 + 1][posM2 + 1] + 1;
                     }
                     /*
@@ -197,7 +200,7 @@ public class Tablero extends JFrame implements ActionListener {
             }
             if (posM1 != 0) {
                 if (posM2 != 0) {
-                    if (tab[posM1 - 1][posM2 - 1] != 9) {
+                    if (tab[posM1 - 1][posM2 - 1] != MINA) {
                         tab[posM1 - 1][posM2 - 1] = tab[posM1 - 1][posM2 - 1] + 1;
                     }
                     /*
@@ -208,8 +211,8 @@ public class Tablero extends JFrame implements ActionListener {
                 }
             }
             if (posM1 != 0) {
-                if (posM2 != 9) {
-                    if (tab[posM1 - 1][posM2 + 1] != 9) {
+                if (posM2 != MINA) {
+                    if (tab[posM1 - 1][posM2 + 1] != MINA) {
                         tab[posM1 - 1][posM2 + 1] = tab[posM1 - 1][posM2 + 1] + 1;
                     }
                     /*
@@ -225,32 +228,41 @@ public class Tablero extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         JButton evBoton = (JButton) ev.getSource();
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == 9) {
+        for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM; j++) {
+
+                if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == MINA) {
                     botonMatriz[i][j].setIcon(icono);
-                    for (int k = 0; k < 10; k++) {
-                        for (int l = 0; l < 10; l++) {
-                            if (tab[k][l]==9){
+                    for (int k = 0; k < TAM; k++) {
+                        for (int l = 0; l < TAM; l++) {
+                            if (tab[k][l] == MINA) {
                                 botonMatriz[k][l].setIcon(icono);
-                            }else{
-                            botonMatriz[k][l].setText(String.valueOf(tab[k][l]));
-                        }}
+                            } else {
+                                botonMatriz[k][l].setText(String.valueOf(tab[k][l]));
+                            }
+                        }
                     }
                 }
-                if (evBoton.equals(botonMatriz[i][j])&& tab[i][j] != 9) {
+                if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
+                    contador++;
+                    break;
                 }
-                if(bLimpiar.equals(evBoton)){
+                if (bLimpiar.equals(evBoton)) {
                     this.crear();
                     botonMatriz[i][j].setIcon(null);
                     this.minas();
-                    
+
                 }
+
             }
+        }
+        if (contador >= ((TAM * TAM) - TAM)) {
+            JOptionPane.showMessageDialog(null, "you win");
+
         }
 
     }
 }
-// 
+
 
