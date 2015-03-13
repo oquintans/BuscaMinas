@@ -15,6 +15,7 @@ public class Tablero extends JFrame implements ActionListener {
     private final Font fuente = new Font("Arial", Font.BOLD, 25);
     private JButton bLimpiar;
     private int contador = 0;
+    ScoreTime time = new ScoreTime();
 
     public Tablero() {
         ventana = new JFrame();
@@ -228,41 +229,46 @@ public class Tablero extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         JButton evBoton = (JButton) ev.getSource();
+
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
-
+                //enseñamos minas you lose
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == MINA) {
                     botonMatriz[i][j].setIcon(icono);
                     for (int k = 0; k < TAM; k++) {
                         for (int l = 0; l < TAM; l++) {
                             if (tab[k][l] == MINA) {
                                 botonMatriz[k][l].setIcon(icono);
-                            } else {
-                                botonMatriz[k][l].setText(String.valueOf(tab[k][l]));
+                                time.acabaJuego();
                             }
                         }
                     }
                 }
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
+                    time.empiezaJuego();
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
+                    evBoton.setEnabled(false);
                     contador++;
-                    break;
                 }
+                //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
+                    botonMatriz[i][j].setEnabled(true);
+                    this.limpiarTablero();
                     this.crear();
                     botonMatriz[i][j].setIcon(null);
                     this.minas();
+                    contador = 0;
 
                 }
 
             }
         }
-        if (contador >= ((TAM * TAM) - TAM)) {
-            JOptionPane.showMessageDialog(null, "you win");
+        if (contador == ((TAM * TAM) - TAM)) {
+            time.acabaJuego();
+            time.tiempo();
+            JOptionPane.showInputDialog(null, time.getTiempo() + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
 
         }
 
     }
 }
-
-
