@@ -44,7 +44,8 @@ public class Tablero extends JFrame implements ActionListener {
     private JPanel scoreTime() {
         JPanel panel = new JPanel();
         JLabel scoreT;
-        panel.add(scoreT = new JLabel("tempo"), BorderLayout.WEST);
+        //best time aki!!
+        panel.add(scoreT = new JLabel("Best Time: "), BorderLayout.WEST);
         return panel;
     }
 
@@ -233,6 +234,7 @@ public class Tablero extends JFrame implements ActionListener {
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
                 //enseñamos minas you lose
+
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == MINA) {
                     botonMatriz[i][j].setIcon(icono);
                     for (int k = 0; k < TAM; k++) {
@@ -245,10 +247,14 @@ public class Tablero extends JFrame implements ActionListener {
                     }
                 }
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
-                    time.empiezaJuego();
+
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
                     evBoton.setEnabled(false);
                     contador++;
+                }
+                //primer boton que tocas , empieza el juego
+                if (contador == 1) {
+                    time.empiezaJuego();
                 }
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
@@ -258,7 +264,6 @@ public class Tablero extends JFrame implements ActionListener {
                     botonMatriz[i][j].setIcon(null);
                     this.minas();
                     contador = 0;
-
                 }
 
             }
@@ -266,7 +271,8 @@ public class Tablero extends JFrame implements ActionListener {
         if (contador == ((TAM * TAM) - TAM)) {
             time.acabaJuego();
             time.tiempo();
-            JOptionPane.showInputDialog(null, time.getTiempo() + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
+            //recoge nombre aki para time usa el getTiempo
+            String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
 
         }
 
