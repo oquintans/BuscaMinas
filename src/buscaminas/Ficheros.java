@@ -24,7 +24,7 @@ public class Ficheros {
 
     PrintWriter fich;
     Scanner sc;
-    String nombF = "ScoreBoard.txt";
+    String nombF = "archivos/scores/ScoreBoard.txt";
     String delim = ",";
     String linea;
     ArrayList<Score> scoreBoard;

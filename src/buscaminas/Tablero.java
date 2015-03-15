@@ -234,7 +234,6 @@ public class Tablero extends JFrame implements ActionListener {
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
                 //enseñamos minas you lose
-
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == MINA) {
                     botonMatriz[i][j].setIcon(icono);
                     for (int k = 0; k < TAM; k++) {
