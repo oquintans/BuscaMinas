@@ -44,8 +44,8 @@ public class Tablero extends JFrame implements ActionListener {
     private JPanel scoreTime() {
         JPanel panel = new JPanel();
         JLabel scoreT;
-        //best time aki!!
-        panel.add(scoreT = new JLabel("Best Time: "), BorderLayout.WEST);
+        Ficheros fich = new Ficheros();
+        panel.add(scoreT = new JLabel("Best Time: " + fich.bestTime() + " segundos"), BorderLayout.WEST);
         return panel;
     }
 
@@ -67,7 +67,6 @@ public class Tablero extends JFrame implements ActionListener {
 
     private JPanel creaPanelJuegoNuevo() {
         JPanel panel = new JPanel();
-
         panel.add(bLimpiar = new JButton("New Game"), BorderLayout.CENTER);
         bLimpiar.addActionListener(this);
         return panel;
@@ -230,6 +229,7 @@ public class Tablero extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         JButton evBoton = (JButton) ev.getSource();
+        Ficheros fich;
 
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
@@ -245,6 +245,7 @@ public class Tablero extends JFrame implements ActionListener {
                             }
                         }
                     }
+                    JOptionPane.showMessageDialog(this, "Perdiste");
                 }
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
 
@@ -272,8 +273,9 @@ public class Tablero extends JFrame implements ActionListener {
             time.acabaJuego();
             time.tiempo();
             //recoge nombre aki para time usa el getTiempo
+            fich = new Ficheros();
             String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
-
+            fich.add(nombre, time.getTiempo());
         }
 
     }
