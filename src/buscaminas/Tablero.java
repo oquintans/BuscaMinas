@@ -59,6 +59,7 @@ public class Tablero extends JFrame implements ActionListener {
                 botonMatriz[i][j].addActionListener(this);
                 botonMatriz[i][j].setFont(fuente);
                 panel.add(botonMatriz[i][j]);
+                panel.setVisible(true);
 
             }
         }
@@ -241,6 +242,8 @@ public class Tablero extends JFrame implements ActionListener {
                             if (tab[k][l] == MINA) {
                                 botonMatriz[k][l].setIcon(icono);
                                 time.acabaJuego();
+                            }else{
+                                botonMatriz[k][l].setEnabled(false);
                             }
                         }
                     }
