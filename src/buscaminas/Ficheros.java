@@ -6,10 +6,12 @@
 package buscaminas;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -69,6 +71,7 @@ public class Ficheros {
     }
 
     public void ordenar() {
+        scoreBoard = new ArrayList();
         try {
             sc = new Scanner(new File(nombF)).useDelimiter(delim);
             fich = new PrintWriter(new FileWriter(new File(nombF), true));
@@ -79,8 +82,19 @@ public class Ficheros {
                     scoreBoard.add(new Score(l[i], Integer.parseInt(l[i + 1])));
                 }
             }
-            scoreBoard.sort(null);
+            Collections.sort(scoreBoard);
+            sc.close();
+            fich.close();
+            File f = new File(nombF);
+            f.delete();
+            f.createNewFile();
+            fich = new PrintWriter(new FileWriter(new File(nombF), true));
+            for (int i = 0; i < scoreBoard.size(); i++) {
+                fich.println(scoreBoard.get(i));
+            }
 
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -89,11 +103,10 @@ public class Ficheros {
         }
     }
 
-    public int bestTime() {
+    public String bestTime() {
         scoreBoard = new ArrayList();
-        int aux = 0;
+        String aux = "";
         try {
-
             sc = new Scanner(new File(nombF)).useDelimiter(delim);
             while (sc.hasNextLine()) {
                 linea = sc.nextLine();
@@ -102,7 +115,7 @@ public class Ficheros {
                     scoreBoard.add(new Score(l[i], Integer.parseInt(l[i + 1])));
                 }
             }
-            aux = scoreBoard.get(0).getTiempo();
+            aux = scoreBoard.get(0).getNombre() +" -> "+ scoreBoard.get(0).getTiempo();
             return aux;
         } catch (IOException ex) {
             Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);

@@ -24,7 +24,6 @@ public class ScoreTime {
     
     public int tiempo() {
         long aux = (tFinal - tInicio);
-        long mins = TimeUnit.SECONDS.toMinutes(aux);
         tiempo =(int)aux;
         System.out.println(tiempo);
         return tiempo;

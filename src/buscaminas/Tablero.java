@@ -2,6 +2,7 @@ package buscaminas;
 
 import java.awt.*;
 import java.awt.event.*;
+import static java.lang.Math.*;
 import javax.swing.*;
 
 public class Tablero extends JFrame implements ActionListener {
@@ -12,7 +13,7 @@ public class Tablero extends JFrame implements ActionListener {
     private static JFrame ventana;
     private static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
     private final JButton[][] botonMatriz;
-    private final Font fuente = new Font("Arial", Font.BOLD, 25);
+    private final Font fuente = new Font("Verdana", Font.BOLD, 25);
     private JButton bLimpiar;
     private int contador = 0;
     ScoreTime time = new ScoreTime();
@@ -45,6 +46,7 @@ public class Tablero extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         JLabel scoreT;
         Ficheros fich = new Ficheros();
+        fich.ordenar();
         panel.add(scoreT = new JLabel("Best Time: " + fich.bestTime() + " segundos"), BorderLayout.WEST);
         return panel;
     }
@@ -242,7 +244,7 @@ public class Tablero extends JFrame implements ActionListener {
                             if (tab[k][l] == MINA) {
                                 botonMatriz[k][l].setIcon(icono);
                                 time.acabaJuego();
-                            }else{
+                            } else {
                                 botonMatriz[k][l].setEnabled(false);
                             }
                         }
@@ -254,6 +256,8 @@ public class Tablero extends JFrame implements ActionListener {
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
                     evBoton.setEnabled(false);
                     contador++;
+                    this.mostrarCeros(i, j);
+
                 }
                 //primer boton que tocas , empieza el juego
                 if (contador == 1) {
@@ -280,5 +284,21 @@ public class Tablero extends JFrame implements ActionListener {
             fich.add(nombre, time.getTiempo());
         }
 
+    }
+
+    public void mostrarCeros(int i, int j) {
+
+        if (tab[i][j] == 0) {
+            for (int i2 = max(0, i - 1); i2 < min(TAM, i + 2); i2++) {
+                for (int j2 = max(0, j - 1); j2 < min(TAM, j + 2); j2++) {
+                    if (botonMatriz[i2][j2].isEnabled()) {
+                        botonMatriz[i2][j2].setText(String.valueOf(tab[i2][j2]));
+                        botonMatriz[i2][j2].setEnabled(false);
+                        contador++;
+                        System.out.println(contador);
+                    }
+                }
+            }
+        }
     }
 }
