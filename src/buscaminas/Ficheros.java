@@ -115,7 +115,7 @@ public class Ficheros {
                     scoreBoard.add(new Score(l[i], Integer.parseInt(l[i + 1])));
                 }
             }
-            aux = scoreBoard.get(0).getNombre() +" -> "+ scoreBoard.get(0).getTiempo();
+            aux = scoreBoard.get(0).getNombre() + " -> " + scoreBoard.get(0).getTiempo();
             return aux;
         } catch (IOException ex) {
             Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
