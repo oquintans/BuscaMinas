@@ -12,7 +12,7 @@ public class Tablero extends JFrame implements ActionListener {
     private final int[][] tab = new int[TAM][TAM]; //Matriz tablero
     private static JFrame ventana;
     private static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
-    private static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/imagenes/boom.png"));
+    private static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/icono//sonriente-carita.gif"));
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Verdana", Font.BOLD, 25);
     private JButton bLimpiar;
@@ -315,6 +315,15 @@ public class Tablero extends JFrame implements ActionListener {
                     botonMatriz[i][j].setBackground(null);
                     this.minas();
                     contador = 0;
+                }
+                if (contador == ((TAM * TAM) - TAM)&&tab[i][j]==MINA){
+                    for (int k = 0; k < TAM; k++) {
+                        for (int l = 0; l < TAM; l++) {
+                            botonMatriz[k][l].setIcon(boom);
+                            botonMatriz[k][l].setEnabled(false);
+                            botonMatriz[k][l].setText(null);
+                        }
+                    }
                 }
 
             }
