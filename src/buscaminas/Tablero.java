@@ -11,8 +11,9 @@ public class Tablero extends JFrame implements ActionListener {
     private static final int MINA = 9;
     private final int[][] tab = new int[TAM][TAM]; //Matriz tablero
     private static JFrame ventana;
-    private static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
+    static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
     static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/icono//sonriente-carita.gif"));
+    private static final ImageIcon bomba = new ImageIcon(Tablero.class.getResource("/imagenes/boom.png"));
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Verdana", Font.BOLD, 25);
     private JButton bLimpiar;
@@ -261,7 +262,7 @@ public class Tablero extends JFrame implements ActionListener {
 
                         }
                     }
-                    JOptionPane.showMessageDialog(null, "HAS PERDIDO!!", "Lo siento", JOptionPane.PLAIN_MESSAGE, icono);
+                    JOptionPane.showMessageDialog(null, "", "HAS PERDIDO!!", JOptionPane.PLAIN_MESSAGE, bomba);
 
                 }
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
