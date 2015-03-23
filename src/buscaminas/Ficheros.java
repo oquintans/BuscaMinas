@@ -62,7 +62,7 @@ public class Ficheros {
             for (int j = 0; j < scoreBoard.size(); j++) {
                 aux = aux + scoreBoard.get(j).getNombre() + " -----> " + scoreBoard.get(j).getTiempo() + " segundos.\n";
             }
-            JOptionPane.showMessageDialog(null, aux);
+            JOptionPane.showMessageDialog(null, aux, "mejores tiempos", JOptionPane.PLAIN_MESSAGE, Tablero.boom);
         } catch (IOException ex) {
             Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
