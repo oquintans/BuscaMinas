@@ -16,7 +16,7 @@ public class Tablero extends JFrame implements ActionListener {
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Verdana", Font.BOLD, 25);
     private JButton bLimpiar;
-    private int contador = 0;
+    private static int contador = 0;
     ScoreTime time = new ScoreTime();
     Graphics g;
 
@@ -268,10 +268,11 @@ public class Tablero extends JFrame implements ActionListener {
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
                     evBoton.setEnabled(false);
                     contador++;
-                    this.mostrarCeros(i, j);
+
                     if (tab[i][j] == 0) {
                         botonMatriz[i][j].setBackground(Color.white);
                         botonMatriz[i][j].setText(null);
+                        this.mostrarCeros(i, j);
                     }
                     if (tab[i][j] == 1) {
                         botonMatriz[i][j].setBackground(Color.green);
@@ -339,53 +340,51 @@ public class Tablero extends JFrame implements ActionListener {
     }
 
     public void mostrarCeros(int i, int j) {
-        if (contador == 0) {
+        if (contador == 1) {
             time.empiezaJuego();
         }
-        if (tab[i][j] == 0) {
-            for (int i2 = max(0, i - 1); i2 < min(TAM, i + 2); i2++) {
-                for (int j2 = max(0, j - 1); j2 < min(TAM, j + 2); j2++) {
-                    if (botonMatriz[i2][j2].isEnabled()) {
-                        botonMatriz[i2][j2].setText(String.valueOf(tab[i2][j2]));
-                        botonMatriz[i2][j2].setEnabled(false);
-                        System.out.println(time.empiezaJuego());
-                        System.out.println(contador);
-                        contador++;
+        for (int i2 = max(0, i - 1); i2 < min(TAM, i + 2); i2++) {
+            for (int j2 = max(0, j - 1); j2 < min(TAM, j + 2); j2++) {
+                if (botonMatriz[i2][j2].isEnabled()) {
+                    botonMatriz[i2][j2].setText(String.valueOf(tab[i2][j2]));
+                    botonMatriz[i2][j2].setEnabled(false);
+                    System.out.println(contador);
+                    contador++;
 
-                        if (tab[i2][j2] == 0) {
-                            mostrarCeros(i2, j2);
-                        }
-                        if (tab[i2][j2] == 0) {
-                            botonMatriz[i2][j2].setBackground(Color.white);
-                            botonMatriz[i2][j2].setText(null);
-                        }
-                        if (tab[i2][j2] == 1) {
-                            botonMatriz[i2][j2].setBackground(Color.green);
-                        }
-                        if (tab[i2][j2] == 2) {
-                            botonMatriz[i2][j2].setBackground(Color.yellow);
-                        }
-                        if (tab[i2][j2] == 3) {
-                            botonMatriz[i2][j2].setBackground(Color.magenta);
-                        }
-                        if (tab[i2][j2] == 4) {
-                            botonMatriz[i2][j2].setBackground(Color.red);
-                        }
-                        if (tab[i2][j2] == 5) {
-                            botonMatriz[i2][j2].setBackground(Color.RED);
-                        }
-                        if (tab[i2][j2] == 6) {
-                            botonMatriz[i2][j2].setBackground(Color.RED);
-                        }
-                        if (tab[i2][j2] == 7) {
-                            botonMatriz[i2][j2].setBackground(Color.RED);
-                        }
-                        if (tab[i2][j2] == 8) {
-                            botonMatriz[i2][j2].setBackground(Color.RED);
-                        }
+                    if (tab[i2][j2] == 0) {
+                        mostrarCeros(i2, j2);
+                    }
+                    if (tab[i2][j2] == 0) {
+                        botonMatriz[i2][j2].setBackground(Color.white);
+                        botonMatriz[i2][j2].setText(null);
+                    }
+                    if (tab[i2][j2] == 1) {
+                        botonMatriz[i2][j2].setBackground(Color.green);
+                    }
+                    if (tab[i2][j2] == 2) {
+                        botonMatriz[i2][j2].setBackground(Color.yellow);
+                    }
+                    if (tab[i2][j2] == 3) {
+                        botonMatriz[i2][j2].setBackground(Color.magenta);
+                    }
+                    if (tab[i2][j2] == 4) {
+                        botonMatriz[i2][j2].setBackground(Color.red);
+                    }
+                    if (tab[i2][j2] == 5) {
+                        botonMatriz[i2][j2].setBackground(Color.RED);
+                    }
+                    if (tab[i2][j2] == 6) {
+                        botonMatriz[i2][j2].setBackground(Color.RED);
+                    }
+                    if (tab[i2][j2] == 7) {
+                        botonMatriz[i2][j2].setBackground(Color.RED);
+                    }
+                    if (tab[i2][j2] == 8) {
+                        botonMatriz[i2][j2].setBackground(Color.RED);
                     }
                 }
             }
         }
     }
+
 }
