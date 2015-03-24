@@ -7,8 +7,9 @@ import javax.swing.*;
 
 public class Tablero extends JFrame implements ActionListener {
 
-    private static final int TAM = 10; //Tamaño de los arrays
+    public static int TAM = 20; //Tamaño de los arrays
     private static final int MINA = 9;
+    public static int NMINAS = 20;
     private final int[][] tab = new int[TAM][TAM]; //Matriz tablero
     private static JFrame ventana;
     static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
@@ -19,13 +20,11 @@ public class Tablero extends JFrame implements ActionListener {
     private JButton bLimpiar;
     private static int contador = 0;
     ScoreTime time = new ScoreTime();
-    Graphics g;
 
     public Tablero() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         ventana = new JFrame();
-        JButton[][] botonTab = new JButton[TAM][TAM];
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setSize(800, 600);
         ventana.setVisible(true);
@@ -45,14 +44,6 @@ public class Tablero extends JFrame implements ActionListener {
                 dispose();
             }
         });
-    }
-
-    private void pintarBoom(Graphics g) {
-        Dimension size = getSize();
-        g.drawImage(boom.getImage(), 0, 0, size.width, size.height, null);
-        setOpacity(0);
-        super.paint(g);
-
     }
 
     private JPanel scoreTime() {
@@ -120,10 +111,10 @@ public class Tablero extends JFrame implements ActionListener {
 
     public void minas() {
         // genera de manera aleatoria las posiciones en la matriz de 10 minas
-        int[] aux1 = new int[TAM];
-        int[] aux2 = new int[TAM];
+        int[] aux1 = new int[NMINAS];
+        int[] aux2 = new int[NMINAS];
 
-        for (int i = 0; i < TAM; i++) {
+        for (int i = 0; i < NMINAS; i++) {
             int posM1;
             int posM2;
             boolean cont;
@@ -149,7 +140,7 @@ public class Tablero extends JFrame implements ActionListener {
             //¿Porque hay dos "if" o incluso 3? para que no salten errores de outOfBounds al poner minas en los extremos del tablero.
             System.out.println(posM1 + " " + posM2);
             tab[posM1][posM2] = MINA; //MINA = 9
-            if (posM1 != MINA) {
+            if (posM1 != TAM - 1) {
                 if (tab[posM1 + 1][posM2] != MINA) {
                     tab[posM1 + 1][posM2] = tab[posM1 + 1][posM2] + 1;
                 }
@@ -169,7 +160,7 @@ public class Tablero extends JFrame implements ActionListener {
                  0 0 0
                  */
             }
-            if (posM2 != MINA) {
+            if (posM2 != TAM - 1) {
                 if (tab[posM1][posM2 + 1] != MINA) {
                     tab[posM1][posM2 + 1] = tab[posM1][posM2 + 1] + 1;
                 }
@@ -190,7 +181,7 @@ public class Tablero extends JFrame implements ActionListener {
                  0 0 0
                  */
             }
-            if (posM1 != MINA) {
+            if (posM1 != TAM - 1) {
                 if (posM2 != 0) {
                     if (tab[posM1 + 1][posM2 - 1] != MINA) {
                         tab[posM1 + 1][posM2 - 1] = tab[posM1 + 1][posM2 - 1] + 1;
@@ -202,8 +193,8 @@ public class Tablero extends JFrame implements ActionListener {
                      */
                 }
             }
-            if (posM1 != MINA) {
-                if (posM2 != MINA) {
+            if (posM1 != TAM - 1) {
+                if (posM2 != TAM - 1) {
                     if (tab[posM1 + 1][posM2 + 1] != MINA) {
                         tab[posM1 + 1][posM2 + 1] = tab[posM1 + 1][posM2 + 1] + 1;
                     }
@@ -227,7 +218,7 @@ public class Tablero extends JFrame implements ActionListener {
                 }
             }
             if (posM1 != 0) {
-                if (posM2 != MINA) {
+                if (posM2 != TAM - 1) {
                     if (tab[posM1 - 1][posM2 + 1] != MINA) {
                         tab[posM1 - 1][posM2 + 1] = tab[posM1 - 1][posM2 + 1] + 1;
                     }
@@ -271,33 +262,33 @@ public class Tablero extends JFrame implements ActionListener {
                     contador++;
 
                     if (tab[i][j] == 0) {
-                        botonMatriz[i][j].setBackground(Color.white);
+                        botonMatriz[i][j].setBackground(Color.lightGray);
                         botonMatriz[i][j].setText(null);
                         this.mostrarCeros(i, j);
                     }
                     if (tab[i][j] == 1) {
-                        botonMatriz[i][j].setBackground(Color.green);
+                        botonMatriz[i][j].setBackground(Color.blue);
                     }
                     if (tab[i][j] == 2) {
-                        botonMatriz[i][j].setBackground(Color.yellow);
+                        botonMatriz[i][j].setBackground(Color.green);
                     }
                     if (tab[i][j] == 3) {
-                        botonMatriz[i][j].setBackground(Color.magenta);
-                    }
-                    if (tab[i][j] == 4) {
                         botonMatriz[i][j].setBackground(Color.red);
                     }
+                    if (tab[i][j] == 4) {
+                        botonMatriz[i][j].setBackground(Color.YELLOW);
+                    }
                     if (tab[i][j] == 5) {
-                        botonMatriz[i][j].setBackground(Color.RED);
+                        botonMatriz[i][j].setBackground(Color.MAGENTA);
                     }
                     if (tab[i][j] == 6) {
-                        botonMatriz[i][j].setBackground(Color.RED);
+                        botonMatriz[i][j].setBackground(Color.cyan);
                     }
                     if (tab[i][j] == 7) {
-                        botonMatriz[i][j].setBackground(Color.RED);
+                        botonMatriz[i][j].setBackground(Color.darkGray);
                     }
                     if (tab[i][j] == 8) {
-                        botonMatriz[i][j].setBackground(Color.RED);
+                        botonMatriz[i][j].setBackground(Color.black);
                     }
 
                 }
@@ -315,7 +306,7 @@ public class Tablero extends JFrame implements ActionListener {
                     this.minas();
                     contador = 0;
                 }
-                if (contador == ((TAM * TAM) - TAM) && tab[i][j] == MINA) {
+                if (contador == ((TAM * TAM) - NMINAS) && tab[i][j] == MINA) {
                     for (int k = 0; k < TAM; k++) {
                         for (int l = 0; l < TAM; l++) {
                             botonMatriz[k][l].setEnabled(false);
@@ -326,10 +317,9 @@ public class Tablero extends JFrame implements ActionListener {
                         }
                     }
                 }
-
             }
         }
-        if (contador == ((TAM * TAM) - TAM)) {
+        if (contador == ((TAM * TAM) - NMINAS)) {
             time.acabaJuego();
             time.tiempo();
             //recoge nombre aki para time usa el getTiempo
@@ -356,32 +346,32 @@ public class Tablero extends JFrame implements ActionListener {
                         mostrarCeros(i2, j2);
                     }
                     if (tab[i2][j2] == 0) {
-                        botonMatriz[i2][j2].setBackground(Color.white);
+                        botonMatriz[i2][j2].setBackground(Color.LIGHT_GRAY);
                         botonMatriz[i2][j2].setText(null);
                     }
                     if (tab[i2][j2] == 1) {
-                        botonMatriz[i2][j2].setBackground(Color.green);
+                        botonMatriz[i2][j2].setBackground(Color.blue);
                     }
                     if (tab[i2][j2] == 2) {
-                        botonMatriz[i2][j2].setBackground(Color.yellow);
+                        botonMatriz[i2][j2].setBackground(Color.green);
                     }
                     if (tab[i2][j2] == 3) {
-                        botonMatriz[i2][j2].setBackground(Color.magenta);
-                    }
-                    if (tab[i2][j2] == 4) {
                         botonMatriz[i2][j2].setBackground(Color.red);
                     }
+                    if (tab[i2][j2] == 4) {
+                        botonMatriz[i2][j2].setBackground(Color.yellow);
+                    }
                     if (tab[i2][j2] == 5) {
-                        botonMatriz[i2][j2].setBackground(Color.RED);
+                        botonMatriz[i2][j2].setBackground(Color.magenta);
                     }
                     if (tab[i2][j2] == 6) {
-                        botonMatriz[i2][j2].setBackground(Color.RED);
+                        botonMatriz[i2][j2].setBackground(Color.cyan);
                     }
                     if (tab[i2][j2] == 7) {
-                        botonMatriz[i2][j2].setBackground(Color.RED);
+                        botonMatriz[i2][j2].setBackground(Color.darkGray);
                     }
                     if (tab[i2][j2] == 8) {
-                        botonMatriz[i2][j2].setBackground(Color.RED);
+                        botonMatriz[i2][j2].setBackground(Color.black);
                     }
                 }
             }
