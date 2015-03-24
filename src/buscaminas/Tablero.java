@@ -12,6 +12,7 @@ public class Tablero extends JFrame implements ActionListener {
     public static int NMINAS = 20;
     private final int[][] tab = new int[TAM][TAM]; //Matriz tablero
     private static JFrame ventana;
+    public static String dificultad;
     static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
     static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/icono//sonriente-carita.gif"));
     private static final ImageIcon bomba = new ImageIcon(Tablero.class.getResource("/imagenes/boom.png"));
@@ -50,8 +51,8 @@ public class Tablero extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         JLabel scoreT;
         Ficheros fich = new Ficheros();
-        fich.ordenar();
-        panel.add(scoreT = new JLabel("Best Time: " + fich.bestTime() + " segundos"), BorderLayout.WEST);
+        fich.ordenar(dificultad);
+        panel.add(scoreT = new JLabel("Best Time: " + fich.bestTime(dificultad) + " segundos"), BorderLayout.WEST);
         return panel;
     }
 
@@ -325,9 +326,8 @@ public class Tablero extends JFrame implements ActionListener {
             //recoge nombre aki para time usa el getTiempo
             fich = new Ficheros();
             String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
-            fich.add(nombre, time.getTiempo());
+            fich.add(nombre, time.getTiempo(),dificultad);
         }
-
     }
 
     public void mostrarCeros(int i, int j) {

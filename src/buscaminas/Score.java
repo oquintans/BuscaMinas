@@ -1,4 +1,3 @@
-
 package buscaminas;
 
 public class Score implements Comparable {

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,15 +25,25 @@ public class Ficheros {
 
     PrintWriter fich;
     Scanner sc;
-    String nombF = "archivos/scores/ScoreBoard.txt";
+    String nombF = "archivos/scores/ScoreBoardF.txt";
+    String nombM = "archivos/scores/ScoreBoardM.txt";
+    String nombD = "archivos/scores/ScoreBoardD.txt";
     String delim = ",";
     String linea;
     ArrayList<Score> scoreBoard;
 
-    public void add(String nombre, int tiempo) {
+    public void add(String nombre, int tiempo, String dif) {
+        String nomb;
+        if (dif.equalsIgnoreCase("Facil")) {
+            nomb = nombF;
+        } else if (dif.equalsIgnoreCase("Medio")) {
+            nomb = nombM;
+        } else {
+            nomb = nombD;
+        }
         try {
-            fich = new PrintWriter(new FileWriter(new File(nombF), true));
-            sc = new Scanner(new File(nombF));
+            fich = new PrintWriter(new FileWriter(new File(nomb), true));
+            sc = new Scanner(new File(nomb));
             scoreBoard = new ArrayList();
             Score l = new Score(nombre, tiempo);
             scoreBoard.add(l);
@@ -47,11 +56,19 @@ public class Ficheros {
         }
     }
 
-    public void visualizar() {
+    public void visualizar(String dif) {
         scoreBoard = new ArrayList();
+        String nomb;
+        if (dif.equalsIgnoreCase("Facil")) {
+            nomb = nombF;
+        } else if (dif.equalsIgnoreCase("Medio")) {
+            nomb = nombM;
+        } else {
+            nomb = nombD;
+        }
         try {
             String aux = "";
-            sc = new Scanner(new File(nombF)).useDelimiter(delim);
+            sc = new Scanner(new File(nomb)).useDelimiter(delim);
             while (sc.hasNextLine()) {
                 linea = sc.nextLine();
                 String[] l = linea.split(",");
@@ -70,11 +87,19 @@ public class Ficheros {
         }
     }
 
-    public void ordenar() {
+    public void ordenar(String dif) {
         scoreBoard = new ArrayList();
+        String nomb;
+        if (dif.equalsIgnoreCase("Facil")) {
+            nomb = nombF;
+        } else if (dif.equalsIgnoreCase("Medio")) {
+            nomb = nombM;
+        } else {
+            nomb = nombD;
+        }
         try {
-            sc = new Scanner(new File(nombF)).useDelimiter(delim);
-            fich = new PrintWriter(new FileWriter(new File(nombF), true));
+            sc = new Scanner(new File(nomb)).useDelimiter(delim);
+            fich = new PrintWriter(new FileWriter(new File(nomb), true));
             while (sc.hasNextLine()) {
                 linea = sc.nextLine();
                 String[] l = linea.split(",");
@@ -103,11 +128,19 @@ public class Ficheros {
         }
     }
 
-    public String bestTime() {
+    public String bestTime(String dif) {
         scoreBoard = new ArrayList();
         String aux = "";
+        String nomb;
+        if (dif.equalsIgnoreCase("Facil")) {
+            nomb = nombF;
+        } else if (dif.equalsIgnoreCase("Medio")) {
+            nomb = nombM;
+        } else {
+            nomb = nombD;
+        }
         try {
-            sc = new Scanner(new File(nombF)).useDelimiter(delim);
+            sc = new Scanner(new File(nomb)).useDelimiter(delim);
             while (sc.hasNextLine()) {
                 linea = sc.nextLine();
                 String[] l = linea.split(",");
