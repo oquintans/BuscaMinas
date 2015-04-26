@@ -13,12 +13,12 @@ public class Tablero extends JFrame implements ActionListener {
     private final int[][] tab = new int[TAM][TAM]; //Matriz tablero
     private static JFrame ventana;
     public static String dificultad;
-    static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/icono.png"));
-    static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/icono//sonriente-carita.gif"));
-    private static final ImageIcon bomba = new ImageIcon(Tablero.class.getResource("/imagenes/boom.png"));
+    static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/Icono.png"));
+    static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/icono/sonriente-carita.gif"));
+    private static final ImageIcon bomba = new ImageIcon(Tablero.class.getResource("/imagenes/Boom.png"));
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Verdana", Font.BOLD, 25);
-    private JButton bLimpiar;
+    private JButton bLimpiar, bVolver;
     private static int contador = 0;
     ScoreTime time = new ScoreTime();
 
@@ -30,7 +30,6 @@ public class Tablero extends JFrame implements ActionListener {
         ventana.setSize(800, 600);
         ventana.setVisible(true);
         ventana.setIconImage(icono.getImage());
-        ventana.setBackground(Color.BLACK);
         botonMatriz = new JButton[TAM][TAM];
         ventana.getContentPane().add(scoreTime(), BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
@@ -60,6 +59,7 @@ public class Tablero extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(TAM, TAM, 0, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.red);
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
                 botonMatriz[i][j] = new JButton();
@@ -76,6 +76,9 @@ public class Tablero extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.add(bLimpiar = new JButton("New Game"), BorderLayout.CENTER);
         bLimpiar.addActionListener(this);
+        panel.add(bVolver = new JButton("Back to Menu"));
+        bVolver.addActionListener(this);
+        bVolver.setEnabled(false);
         return panel;
     }
 
@@ -237,7 +240,11 @@ public class Tablero extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ev) {
         JButton evBoton = (JButton) ev.getSource();
         Ficheros fich;
+        if (ev.getSource().equals(bVolver)) {
+            ventana.dispose();
+            MenuP menu = new MenuP();
 
+        }
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
                 //enseñamos minas you lose
@@ -255,6 +262,7 @@ public class Tablero extends JFrame implements ActionListener {
                         }
                     }
                     JOptionPane.showMessageDialog(null, "", "HAS PERDIDO!!", JOptionPane.PLAIN_MESSAGE, bomba);
+                    bVolver.setEnabled(true);
 
                 }
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
@@ -306,6 +314,7 @@ public class Tablero extends JFrame implements ActionListener {
                     botonMatriz[i][j].setBackground(null);
                     this.minas();
                     contador = 0;
+                    bVolver.setEnabled(false);
                 }
                 if (contador == ((TAM * TAM) - NMINAS) && tab[i][j] == MINA) {
                     for (int k = 0; k < TAM; k++) {
@@ -320,13 +329,15 @@ public class Tablero extends JFrame implements ActionListener {
                 }
             }
         }
-        if (contador == ((TAM * TAM) - NMINAS)) {
+        if (contador == ((TAM * TAM) - NMINAS)&&ev.getSource()!=bVolver) {
             time.acabaJuego();
             time.tiempo();
             //recoge nombre aki para time usa el getTiempo
             fich = new Ficheros();
             String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
-            fich.add(nombre, time.getTiempo(),dificultad);
+            fich.add(nombre, time.getTiempo(), dificultad);
+            bVolver.setEnabled(true);
+            
         }
     }
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +22,10 @@ import javax.swing.JOptionPane;
  *
  * @author Oscar
  */
+@SuppressWarnings("rawtypes")
 public class Ficheros {
 
+    
     PrintWriter fich;
     Scanner sc;
     String nombF = "archivos/scores/ScoreBoardF.txt";
@@ -30,7 +33,7 @@ public class Ficheros {
     String nombD = "archivos/scores/ScoreBoardD.txt";
     String delim = ",";
     String linea;
-    ArrayList<Score> scoreBoard;
+    List<Score> scoreBoard;
 
     public void add(String nombre, int tiempo, String dif) {
         String nomb;
@@ -44,7 +47,7 @@ public class Ficheros {
         try {
             fich = new PrintWriter(new FileWriter(new File(nomb), true));
             sc = new Scanner(new File(nomb));
-            scoreBoard = new ArrayList();
+            scoreBoard = new ArrayList<>();
             Score l = new Score(nombre, tiempo);
             scoreBoard.add(l);
             fich.println(l);
@@ -57,7 +60,7 @@ public class Ficheros {
     }
 
     public void visualizar(String dif) {
-        scoreBoard = new ArrayList();
+        scoreBoard = new ArrayList<>();
         String nomb;
         if (dif.equalsIgnoreCase("Facil")) {
             nomb = nombF;
@@ -88,7 +91,7 @@ public class Ficheros {
     }
 
     public void ordenar(String dif) {
-        scoreBoard = new ArrayList();
+        scoreBoard = new ArrayList<>();
         String nomb;
         if (dif.equalsIgnoreCase("Facil")) {
             nomb = nombF;
@@ -129,7 +132,7 @@ public class Ficheros {
     }
 
     public String bestTime(String dif) {
-        scoreBoard = new ArrayList();
+        scoreBoard = new ArrayList<>();
         String aux = "";
         String nomb;
         if (dif.equalsIgnoreCase("Facil")) {

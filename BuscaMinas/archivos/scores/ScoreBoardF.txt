@@ -1,5 +1,1 @@
-Oscar Facil,23
-Oscar2,41
-aaron,57
-Oscar,181
-Oscar Medio,210
+Easy,35
