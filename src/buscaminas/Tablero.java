@@ -5,7 +5,7 @@ import java.awt.event.*;
 import static java.lang.Math.*;
 import javax.swing.*;
 
-public class Tablero extends JFrame implements ActionListener {
+public class Tablero extends JFrame implements ActionListener, MouseListener {
 
     public static int TAM = 20; //Tamaño de los arrays
     private static final int MINA = 9;
@@ -16,10 +16,11 @@ public class Tablero extends JFrame implements ActionListener {
     static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/Icono.png"));
     static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/icono/sonriente-carita.gif"));
     private static final ImageIcon bomba = new ImageIcon(Tablero.class.getResource("/imagenes/Boom.png"));
+    private static final ImageIcon bandera = new ImageIcon(Tablero.class.getResource("/imagenes/bandeira.png"));
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Verdana", Font.BOLD, 25);
     private JButton bLimpiar, bVolver;
-    private static int contador = 0;
+    private static int contador = 0, contBanderaBuena = 0;
     ScoreTime time = new ScoreTime();
 
     public Tablero() {
@@ -59,11 +60,11 @@ public class Tablero extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(TAM, TAM, 0, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Color.red);
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
                 botonMatriz[i][j] = new JButton();
                 botonMatriz[i][j].addActionListener(this);
+                botonMatriz[i][j].addMouseListener(this);
                 botonMatriz[i][j].setFont(fuente);
                 panel.add(botonMatriz[i][j]);
                 panel.setVisible(true);
@@ -329,7 +330,7 @@ public class Tablero extends JFrame implements ActionListener {
                 }
             }
         }
-        if (contador == ((TAM * TAM) - NMINAS)&&ev.getSource()!=bVolver) {
+        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver|contBanderaBuena==NMINAS) {
             time.acabaJuego();
             time.tiempo();
             //recoge nombre aki para time usa el getTiempo
@@ -337,7 +338,7 @@ public class Tablero extends JFrame implements ActionListener {
             String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
             fich.add(nombre, time.getTiempo(), dificultad);
             bVolver.setEnabled(true);
-            
+
         }
     }
 
@@ -387,6 +388,48 @@ public class Tablero extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM; j++) {
+                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && botonMatriz[i][j].isEnabled()) {
+                    botonMatriz[i][j].setIcon(bandera);
+                    botonMatriz[i][j].setEnabled(false);
+                    if(tab[i][j]==MINA){
+                        contBanderaBuena++;
+                        System.out.println(contBanderaBuena);
+                    }
+                    break;
+                }
+                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && !botonMatriz[i][j].isEnabled()) {
+                    botonMatriz[i][j].setIcon(null);
+                    botonMatriz[i][j].setEnabled(true);
+
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 
 }

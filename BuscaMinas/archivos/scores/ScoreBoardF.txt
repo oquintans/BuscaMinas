@@ -1,1 +1,2 @@
-Easy,35
+shit,77
+Hard,120
