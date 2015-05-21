@@ -24,6 +24,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
     ScoreTime time = new ScoreTime();
 
     public Tablero() {
+        CronometroThread cr=new CronometroThread();
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         ventana = new JFrame();
@@ -32,7 +33,8 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
         ventana.setVisible(true);
         ventana.setIconImage(icono.getImage());
         botonMatriz = new JButton[TAM][TAM];
-        ventana.getContentPane().add(scoreTime(), BorderLayout.NORTH);
+        ventana.add(cr);
+        ventana.getContentPane().add(scoreTime(),BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
         ventana.getContentPane().add(creaPanelJuegoNuevo(), BorderLayout.SOUTH);
         ventana.pack();
@@ -51,8 +53,9 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
         JPanel panel = new JPanel();
         JLabel scoreT;
         Ficheros fich = new Ficheros();
-        fich.ordenar(dificultad);
-        panel.add(scoreT = new JLabel("Best Time: " + fich.bestTime(dificultad) + " segundos"), BorderLayout.WEST);
+        fich.ordenar(dificultad);        
+        panel.setBounds(330, 5, 100, 25);
+        panel.add(scoreT = new JLabel("\n"));
         return panel;
     }
 
