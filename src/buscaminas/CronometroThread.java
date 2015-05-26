@@ -7,22 +7,25 @@ public class CronometroThread extends JPanel implements Runnable {
 
     private static final long serialVersionUID = 3287496534931916605L;
 //Atributos 
-    Thread crono_hilo = null;
+    static Thread crono_hilo = null;
     private final boolean sw = true;
-    private static boolean detenido = false;
-    private int horas = 0;
-    private int minutos = 0;
-    private int segundos = 0;
+    static boolean detenido = false;
+    private int horas;
+    private int minutos;
+    private int segundos;
     static JLabel[] lbl_digitos = null;
     JLabel etiqueta = null;
     static char[] crono = {0, 0, ':', 0, 0, ':', 0, 0};
 
     //Constructor
     public CronometroThread() {
+        horas = 0;
+        minutos = 0;
+        segundos = 0;
         lbl_digitos = new JLabel[8];
         //this.setLayout();
-       this.setBounds(350, 5, 100, 20);
-       
+        this.setBounds(350, 5, 100, 20);
+
         for (int i = 0; i < lbl_digitos.length; i++) {
             lbl_digitos[i] = new JLabel();
             this.add(lbl_digitos[i]);
@@ -31,6 +34,10 @@ public class CronometroThread extends JPanel implements Runnable {
 
         crono_hilo = new Thread(this);
         crono_hilo.start();
+    }
+
+    public static void paraCrono() throws InterruptedException {
+        crono_hilo.join(0);
     }
 
     private void mostrarInfoCrono() {

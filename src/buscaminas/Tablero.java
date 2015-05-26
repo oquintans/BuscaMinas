@@ -3,6 +3,8 @@ package buscaminas;
 import java.awt.*;
 import java.awt.event.*;
 import static java.lang.Math.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class Tablero extends JFrame implements ActionListener, MouseListener {
@@ -24,7 +26,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
     ScoreTime time = new ScoreTime();
 
     public Tablero() {
-        CronometroThread cr=new CronometroThread();
+        CronometroThread cr = new CronometroThread();
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         ventana = new JFrame();
@@ -34,10 +36,10 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
         ventana.setIconImage(icono.getImage());
         botonMatriz = new JButton[TAM][TAM];
         ventana.add(cr);
-        ventana.getContentPane().add(scoreTime(),BorderLayout.NORTH);
+        ventana.getContentPane().add(scoreTime(), BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
         ventana.getContentPane().add(creaPanelJuegoNuevo(), BorderLayout.SOUTH);
-        ventana.pack();
+        //ventana.pack();
         ventana.setMinimumSize(new Dimension(800, 600));
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
@@ -53,7 +55,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
         JPanel panel = new JPanel();
         JLabel scoreT;
         Ficheros fich = new Ficheros();
-        fich.ordenar(dificultad);        
+        fich.ordenar(dificultad);
         panel.setBounds(330, 5, 100, 25);
         panel.add(scoreT = new JLabel("\n"));
         return panel;
@@ -268,6 +270,8 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                     JOptionPane.showMessageDialog(null, "", "HAS PERDIDO!!", JOptionPane.PLAIN_MESSAGE, bomba);
                     bVolver.setEnabled(true);
 
+                    CronometroThread.detenido = true;
+
                 }
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
                     botonMatriz[i][j].setText(String.valueOf(tab[i][j]));
@@ -311,6 +315,8 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                 }
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
+                    CronometroThread.detenido = false;
+                    CronometroThread ct=new CronometroThread();
                     botonMatriz[i][j].setEnabled(true);
                     this.limpiarTablero();
                     this.crear();
@@ -319,6 +325,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                     this.minas();
                     contador = 0;
                     bVolver.setEnabled(false);
+                    
                 }
                 if (contador == ((TAM * TAM) - NMINAS) && tab[i][j] == MINA) {
                     for (int k = 0; k < TAM; k++) {
@@ -333,7 +340,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                 }
             }
         }
-        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver|contBanderaBuena==NMINAS) {
+        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver | contBanderaBuena == NMINAS) {
             time.acabaJuego();
             time.tiempo();
             //recoge nombre aki para time usa el getTiempo
@@ -400,7 +407,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                 if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && botonMatriz[i][j].isEnabled()) {
                     botonMatriz[i][j].setIcon(bandera);
                     botonMatriz[i][j].setEnabled(false);
-                    if(tab[i][j]==MINA){
+                    if (tab[i][j] == MINA) {
                         contBanderaBuena++;
                         System.out.println(contBanderaBuena);
                     }
