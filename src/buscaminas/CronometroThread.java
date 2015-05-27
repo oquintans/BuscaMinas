@@ -10,12 +10,24 @@ public class CronometroThread extends JPanel implements Runnable {
     static Thread crono_hilo = null;
     private final boolean sw = true;
     static boolean detenido = false;
-    private int horas;
-    private int minutos;
-    private int segundos;
+    private static int horas;
+    private static int minutos;
+    private static int segundos;
     static JLabel[] lbl_digitos = null;
     JLabel etiqueta = null;
     static char[] crono = {0, 0, ':', 0, 0, ':', 0, 0};
+    
+    public static void setHoras(int horas) {
+        CronometroThread.horas = horas;
+    }
+
+    public static void setMinutos(int minutos) {
+        CronometroThread.minutos = minutos;
+    }
+
+    public static void setSegundos(int segundos) {
+        CronometroThread.segundos = segundos;
+    }
 
     //Constructor
     public CronometroThread() {

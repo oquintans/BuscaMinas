@@ -3,11 +3,9 @@ package buscaminas;
 import java.awt.*;
 import java.awt.event.*;
 import static java.lang.Math.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
-public class Tablero extends JFrame implements ActionListener, MouseListener {
+public class Tablero implements ActionListener, MouseListener {
 
     public static int TAM = 20; //Tamaño de los arrays
     private static final int MINA = 9;
@@ -24,9 +22,11 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
     private JButton bLimpiar, bVolver;
     private static int contador = 0, contBanderaBuena = 0;
     ScoreTime time = new ScoreTime();
+    CronometroThread cr;
+    Ficheros fich;
 
     public Tablero() {
-        CronometroThread cr = new CronometroThread();
+        cr = new CronometroThread();
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         ventana = new JFrame();
@@ -46,7 +46,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
         ventana.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent ev) {
-                dispose();
+                ventana.dispose();
             }
         });
     }
@@ -242,13 +242,27 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    public void ganar() {
+        time.acabaJuego();
+        time.tiempo();
+        //recoge nombre aki para time usa el getTiempo
+        fich = new Ficheros();
+        String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
+        fich.add(nombre, time.getTiempo(), dificultad);
+        bVolver.setEnabled(true);
+        CronometroThread.detenido = true;
+    }
+
     @Override
     public void actionPerformed(ActionEvent ev) {
         JButton evBoton = (JButton) ev.getSource();
-        Ficheros fich;
+
         if (ev.getSource().equals(bVolver)) {
             ventana.dispose();
             MenuP menu = new MenuP();
+            cr.setSegundos(0);
+            cr.setMinutos(0);
+            cr.setHoras(0);
 
         }
         for (int i = 0; i < TAM; i++) {
@@ -316,7 +330,10 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
                     CronometroThread.detenido = false;
-                    CronometroThread ct=new CronometroThread();
+                    CronometroThread.setSegundos(0);
+                    CronometroThread.setMinutos(0);
+                    CronometroThread.setHoras(0);
+                    // CronometroThread ct=new CronometroThread();
                     botonMatriz[i][j].setEnabled(true);
                     this.limpiarTablero();
                     this.crear();
@@ -325,7 +342,7 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                     this.minas();
                     contador = 0;
                     bVolver.setEnabled(false);
-                    
+
                 }
                 if (contador == ((TAM * TAM) - NMINAS) && tab[i][j] == MINA) {
                     for (int k = 0; k < TAM; k++) {
@@ -340,15 +357,8 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                 }
             }
         }
-        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver | contBanderaBuena == NMINAS) {
-            time.acabaJuego();
-            time.tiempo();
-            //recoge nombre aki para time usa el getTiempo
-            fich = new Ficheros();
-            String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
-            fich.add(nombre, time.getTiempo(), dificultad);
-            bVolver.setEnabled(true);
-
+        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver ) {
+            this.ganar();
         }
     }
 
@@ -417,9 +427,12 @@ public class Tablero extends JFrame implements ActionListener, MouseListener {
                     botonMatriz[i][j].setIcon(null);
                     botonMatriz[i][j].setEnabled(true);
 
-                }
+                }             
             }
         }
+    if( contBanderaBuena == NMINAS){
+        this.ganar();
+    }
     }
 
     @Override
