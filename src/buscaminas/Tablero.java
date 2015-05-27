@@ -20,7 +20,7 @@ public class Tablero implements ActionListener, MouseListener {
     private final JButton[][] botonMatriz;
     private final Font fuente = new Font("Verdana", Font.BOLD, 25);
     private JButton bLimpiar, bVolver;
-    private static int contador = 0, contBanderaBuena = 0;
+    private static int contador = 0, contBanderaBuena = 0, contBandera = 0;
     ScoreTime time = new ScoreTime();
     CronometroThread cr;
     Ficheros fich;
@@ -357,7 +357,7 @@ public class Tablero implements ActionListener, MouseListener {
                 }
             }
         }
-        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver ) {
+        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver) {
             this.ganar();
         }
     }
@@ -414,25 +414,28 @@ public class Tablero implements ActionListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
-                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && botonMatriz[i][j].isEnabled()) {
+                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && botonMatriz[i][j].isEnabled() && contBandera + contBanderaBuena < NMINAS) {
                     botonMatriz[i][j].setIcon(bandera);
                     botonMatriz[i][j].setEnabled(false);
                     if (tab[i][j] == MINA) {
                         contBanderaBuena++;
                         System.out.println(contBanderaBuena);
+                    } else {
+                        contBandera++;
                     }
                     break;
                 }
                 if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && !botonMatriz[i][j].isEnabled()) {
                     botonMatriz[i][j].setIcon(null);
                     botonMatriz[i][j].setEnabled(true);
+                    contBandera--;
 
-                }             
+                }
             }
         }
-    if( contBanderaBuena == NMINAS){
-        this.ganar();
-    }
+        if (contBanderaBuena == NMINAS) {
+            this.ganar();
+        }
     }
 
     @Override
