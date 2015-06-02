@@ -16,7 +16,7 @@ public class CronometroThread extends JPanel implements Runnable {
     static JLabel[] lbl_digitos = null;
     JLabel etiqueta = null;
     static char[] crono = {0, 0, ':', 0, 0, ':', 0, 0};
-    
+
     public static void setHoras(int horas) {
         CronometroThread.horas = horas;
     }
@@ -56,11 +56,11 @@ public class CronometroThread extends JPanel implements Runnable {
         for (int i = 0; i < lbl_digitos.length; i++) {
             if (crono[i] != ':') {
                 lbl_digitos[i].setText(String.valueOf(crono[i]));
-                lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
+       //         lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
             } else {
                 lbl_digitos[i].setText(":");
             }
-            lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
+       //     lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
         }
     }
 
