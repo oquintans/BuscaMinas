@@ -24,6 +24,7 @@ public class Tablero implements ActionListener, MouseListener {
     ScoreTime time = new ScoreTime();
     CronometroThread cr;
     Ficheros fich;
+    private boolean win = false;
 
     public Tablero() {
         cr = new CronometroThread();
@@ -243,6 +244,7 @@ public class Tablero implements ActionListener, MouseListener {
     }
 
     public void ganar() {
+        win = true;
         time.acabaJuego();
         time.tiempo();
         CronometroThread.detenido = true;
@@ -259,11 +261,12 @@ public class Tablero implements ActionListener, MouseListener {
         JButton evBoton = (JButton) ev.getSource();
 
         if (ev.getSource().equals(bVolver)) {
+            win = false;
             ventana.dispose();
             MenuP menu = new MenuP();
-            cr.setSegundos(0);
-            cr.setMinutos(0);
-            cr.setHoras(0);
+            CronometroThread.setSegundos(0);
+            CronometroThread.setMinutos(0);
+            CronometroThread.setHoras(0);
             contador = 0;
             contBandera = 0;
             contBanderaBuena = 0;
@@ -333,6 +336,7 @@ public class Tablero implements ActionListener, MouseListener {
                 }
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
+                    win = false;
                     CronometroThread.detenido = false;
                     CronometroThread.setSegundos(0);
                     CronometroThread.setMinutos(0);
@@ -363,7 +367,7 @@ public class Tablero implements ActionListener, MouseListener {
                 }
             }
         }
-        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver) {
+        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver && win == false) {
             this.ganar();
         }
     }
@@ -442,7 +446,7 @@ public class Tablero implements ActionListener, MouseListener {
                 }
             }
         }
-        if (contBanderaBuena == NMINAS) {
+        if (contBanderaBuena == NMINAS && win == false) {
             this.ganar();
         }
     }
