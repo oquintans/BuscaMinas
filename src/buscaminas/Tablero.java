@@ -428,33 +428,40 @@ public class Tablero implements ActionListener, MouseListener {
                 if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && !botonMatriz[i][j].isEnabled()) {
                     botonMatriz[i][j].setIcon(null);
                     botonMatriz[i][j].setEnabled(true);
-                    contBandera--;
-
+                    if (tab[i][j] == MINA) {
+                        contBanderaBuena--;
+                    } else {
+                        contBandera--;
+                    }
                 }
             }
+            if (contBanderaBuena == NMINAS) {
+                this.ganar();
+            }
         }
-        if (contBanderaBuena == NMINAS) {
-            this.ganar();
-        }
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mousePressed(MouseEvent e
+    ) {
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseReleased(MouseEvent e
+    ) {
 
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseEntered(MouseEvent e
+    ) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e
+    ) {
 
     }
 
