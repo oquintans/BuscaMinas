@@ -245,12 +245,13 @@ public class Tablero implements ActionListener, MouseListener {
     public void ganar() {
         time.acabaJuego();
         time.tiempo();
+        CronometroThread.detenido = true;
         //recoge nombre aki para time usa el getTiempo
         fich = new Ficheros();
         String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
         fich.add(nombre, time.getTiempo(), dificultad);
         bVolver.setEnabled(true);
-        CronometroThread.detenido = true;
+
     }
 
     @Override
@@ -263,6 +264,9 @@ public class Tablero implements ActionListener, MouseListener {
             cr.setSegundos(0);
             cr.setMinutos(0);
             cr.setHoras(0);
+            contador = 0;
+            contBandera = 0;
+            contBanderaBuena = 0;
 
         }
         for (int i = 0; i < TAM; i++) {
@@ -341,6 +345,8 @@ public class Tablero implements ActionListener, MouseListener {
                     botonMatriz[i][j].setBackground(null);
                     this.minas();
                     contador = 0;
+                    contBandera = 0;
+                    contBanderaBuena = 0;
                     bVolver.setEnabled(false);
 
                 }
@@ -435,9 +441,9 @@ public class Tablero implements ActionListener, MouseListener {
                     }
                 }
             }
-            if (contBanderaBuena == NMINAS) {
-                this.ganar();
-            }
+        }
+        if (contBanderaBuena == NMINAS) {
+            this.ganar();
         }
     }
 
