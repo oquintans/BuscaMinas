@@ -3,6 +3,8 @@ package buscaminas;
 import java.awt.*;
 import java.awt.event.*;
 import static java.lang.Math.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class Tablero implements ActionListener, MouseListener {
@@ -24,20 +26,29 @@ public class Tablero implements ActionListener, MouseListener {
     ScoreTime time = new ScoreTime();
     CronometroThread cr;
     Ficheros fich;
-    private boolean win = false;
+    public static boolean win = false, loose = false;
 
     public Tablero() {
-        cr = new CronometroThread();
+        // cr = new CronometroThread();
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         ventana = new JFrame();
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.setSize(800, 600);
+        if ("Facil".equals(dificultad)) {
+            ventana.setSize(800, 600);
+        }
+        if ("Media".equals(dificultad)) {
+            ventana.setSize(1024, 720);
+        }
+        if ("Dificil".equals(dificultad)) {
+            ventana.setSize(1200, 720);
+        }
+
         ventana.setVisible(true);
         ventana.setIconImage(icono.getImage());
         botonMatriz = new JButton[TAM][TAM];
-        ventana.add(cr);
-        ventana.getContentPane().add(scoreTime(), BorderLayout.NORTH);
+        ventana.add(new CronometroThread());
+        ventana.getContentPane().add(time(), BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
         ventana.getContentPane().add(creaPanelJuegoNuevo(), BorderLayout.SOUTH);
         //ventana.pack();
@@ -52,11 +63,12 @@ public class Tablero implements ActionListener, MouseListener {
         });
     }
 
-    private JPanel scoreTime() {
+    private JPanel time() {
         JPanel panel = new JPanel();
         JLabel scoreT;
-        Ficheros fich = new Ficheros();
-        fich.ordenar(dificultad);
+        /**
+         * Ficheros fich = new Ficheros(); fich.ordenar(dificultad);*
+         */
         panel.setBounds(330, 5, 100, 25);
         panel.add(scoreT = new JLabel("\n"));
         return panel;
@@ -245,6 +257,7 @@ public class Tablero implements ActionListener, MouseListener {
 
     public void ganar() {
         win = true;
+        loose = false;
         time.acabaJuego();
         time.tiempo();
         CronometroThread.detenido = true;
@@ -256,6 +269,16 @@ public class Tablero implements ActionListener, MouseListener {
 
     }
 
+    public void perder() {
+        JOptionPane.showMessageDialog(null, "", "HAS PERDIDO!!", JOptionPane.PLAIN_MESSAGE, bomba);
+        bVolver.setEnabled(true);
+        CronometroThread.detenido = true;
+        CronometroThread.crono_hilo.stop();
+        System.out.println(CronometroThread.crono_hilo.isAlive());
+        win = false;
+        loose = true;
+    }
+
     @Override
     public void actionPerformed(ActionEvent ev) {
         JButton evBoton = (JButton) ev.getSource();
@@ -264,9 +287,6 @@ public class Tablero implements ActionListener, MouseListener {
             win = false;
             ventana.dispose();
             MenuP menu = new MenuP();
-            CronometroThread.setSegundos(0);
-            CronometroThread.setMinutos(0);
-            CronometroThread.setHoras(0);
             contador = 0;
             contBandera = 0;
             contBanderaBuena = 0;
@@ -288,10 +308,7 @@ public class Tablero implements ActionListener, MouseListener {
 
                         }
                     }
-                    JOptionPane.showMessageDialog(null, "", "HAS PERDIDO!!", JOptionPane.PLAIN_MESSAGE, bomba);
-                    bVolver.setEnabled(true);
-
-                    CronometroThread.detenido = true;
+                    this.perder();
 
                 }
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] != MINA) {
@@ -337,6 +354,7 @@ public class Tablero implements ActionListener, MouseListener {
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
                     win = false;
+                    loose = false;
                     CronometroThread.detenido = false;
                     CronometroThread.setSegundos(0);
                     CronometroThread.setMinutos(0);
@@ -424,7 +442,7 @@ public class Tablero implements ActionListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         for (int i = 0; i < TAM; i++) {
             for (int j = 0; j < TAM; j++) {
-                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && botonMatriz[i][j].isEnabled() && contBandera + contBanderaBuena < NMINAS) {
+                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && botonMatriz[i][j].isEnabled() && contBandera + contBanderaBuena < NMINAS && loose == false) {
                     botonMatriz[i][j].setIcon(bandera);
                     botonMatriz[i][j].setEnabled(false);
                     if (tab[i][j] == MINA) {
@@ -435,7 +453,7 @@ public class Tablero implements ActionListener, MouseListener {
                     }
                     break;
                 }
-                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && !botonMatriz[i][j].isEnabled()) {
+                if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && !botonMatriz[i][j].isEnabled() && loose == false) {
                     botonMatriz[i][j].setIcon(null);
                     botonMatriz[i][j].setEnabled(true);
                     if (tab[i][j] == MINA) {

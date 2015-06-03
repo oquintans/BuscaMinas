@@ -56,8 +56,8 @@ public class MenuP implements ActionListener {
             tab.crear();
             tab.minas();
             tab.visualizar();
+            Tablero.win = false;
             CronometroThread.detenido = false;
-            
             CronometroThread.setSegundos(0);
             CronometroThread.setMinutos(0);
             CronometroThread.setHoras(0);
@@ -71,6 +71,11 @@ public class MenuP implements ActionListener {
             tab.crear();
             tab.minas();
             tab.visualizar();
+            Tablero.win = false;
+            CronometroThread.detenido = false;
+            CronometroThread.setSegundos(0);
+            CronometroThread.setMinutos(0);
+            CronometroThread.setHoras(0);
             frame.dispose();
         }
         if (e.getSource().equals(begin) && dificultad.getSelectedItem().toString().equals("Dificil")) {
@@ -81,6 +86,11 @@ public class MenuP implements ActionListener {
             tab.crear();
             tab.minas();
             tab.visualizar();
+            Tablero.win = false;
+            CronometroThread.detenido = false;
+            CronometroThread.setSegundos(0);
+            CronometroThread.setMinutos(0);
+            CronometroThread.setHoras(0);
             frame.dispose();
         }
 

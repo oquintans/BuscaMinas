@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 public class CronometroThread extends JPanel implements Runnable {
 
     private static final long serialVersionUID = 3287496534931916605L;
-//Atributos 
+    //Atributos 
     static Thread crono_hilo = null;
     private final boolean sw = true;
     static boolean detenido = false;
@@ -45,6 +45,7 @@ public class CronometroThread extends JPanel implements Runnable {
         mostrarInfoCrono();
 
         crono_hilo = new Thread(this);
+        
         crono_hilo.start();
     }
 
@@ -56,11 +57,11 @@ public class CronometroThread extends JPanel implements Runnable {
         for (int i = 0; i < lbl_digitos.length; i++) {
             if (crono[i] != ':') {
                 lbl_digitos[i].setText(String.valueOf(crono[i]));
-       //         lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
+                //         lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
             } else {
                 lbl_digitos[i].setText(":");
             }
-       //     lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
+            //     lbl_digitos[i].setBounds(70 + (i * 13), 10, 13, 23);
         }
     }
 
