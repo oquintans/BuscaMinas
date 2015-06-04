@@ -273,7 +273,8 @@ public class Tablero implements ActionListener, MouseListener {
         JOptionPane.showMessageDialog(null, "", "HAS PERDIDO!!", JOptionPane.PLAIN_MESSAGE, bomba);
         bVolver.setEnabled(true);
         CronometroThread.detenido = true;
-        CronometroThread.crono_hilo.stop();
+        CronometroThread.crono_hilo.suspend();
+       // CronometroThread.crono_hilo.stop();
         System.out.println(CronometroThread.crono_hilo.isAlive());
         win = false;
         loose = true;
@@ -353,23 +354,26 @@ public class Tablero implements ActionListener, MouseListener {
                 }
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
-                    win = false;
-                    loose = false;
-                    CronometroThread.detenido = false;
-                    CronometroThread.setSegundos(0);
-                    CronometroThread.setMinutos(0);
-                    CronometroThread.setHoras(0);
-                    // CronometroThread ct=new CronometroThread();
-                    botonMatriz[i][j].setEnabled(true);
-                    this.limpiarTablero();
-                    this.crear();
-                    botonMatriz[i][j].setIcon(null);
-                    botonMatriz[i][j].setBackground(null);
-                    this.minas();
-                    contador = 0;
-                    contBandera = 0;
-                    contBanderaBuena = 0;
-                    bVolver.setEnabled(false);
+                  
+                        win = false;
+                        loose = false;
+                        CronometroThread.detenido = false;
+                        CronometroThread.setSegundos(0);
+                        CronometroThread.setMinutos(0);
+                        CronometroThread.setHoras(0);
+                        CronometroThread.crono_hilo.resume();
+                        // CronometroThread ct=new CronometroThread();
+                        botonMatriz[i][j].setEnabled(true);
+                        this.limpiarTablero();
+                        this.crear();
+                        botonMatriz[i][j].setIcon(null);
+                        botonMatriz[i][j].setBackground(null);
+                        this.minas();
+                        contador = 0;
+                        contBandera = 0;
+                        contBanderaBuena = 0;
+                        bVolver.setEnabled(false);
+                   
 
                 }
                 if (contador == ((TAM * TAM) - NMINAS) && tab[i][j] == MINA) {
