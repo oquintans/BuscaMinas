@@ -261,9 +261,10 @@ public class Tablero implements ActionListener, MouseListener {
         time.tiempo();
         CronometroThread.detenido = true;
         //recoge nombre aki para time usa el getTiempo
-        fich = new Ficheros();
+        //fich = new Ficheros();
+        BaseData bd = new BaseData();
         String nombre = JOptionPane.showInputDialog(null, time.getTiempo() + " segundos" + "\nIntroduce tu nombre", "YOU Win", JOptionPane.PLAIN_MESSAGE);
-        fich.add(nombre, time.getTiempo(), dificultad);
+        bd.insert(time.getTiempo(), nombre, dificultad);
         bVolver.setEnabled(true);
 
     }

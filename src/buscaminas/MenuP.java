@@ -3,6 +3,7 @@ package buscaminas;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 import javax.swing.*;
 
 public class MenuP implements ActionListener {
@@ -13,8 +14,10 @@ public class MenuP implements ActionListener {
     private final JLabel eDificultad;
     private final JComboBox dificultad;
     private final JButton begin, score, exit;
+    BaseData bd;
 
     public MenuP() {
+        BaseData.conDerby();
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         frame = new JFrame("BUSCAMINAS");
@@ -101,9 +104,9 @@ public class MenuP implements ActionListener {
             Tablero.dificultad = "Personalizado";
             Tablero.FIL = Integer.parseInt(JOptionPane.showInputDialog("Nº Filas"));
             Tablero.COL = Integer.parseInt(JOptionPane.showInputDialog("Nº Columnas"));
-            do{
-            Tablero.NMINAS = Integer.parseInt(JOptionPane.showInputDialog("Nº Minas"));            
-            }while(Tablero.NMINAS>(Tablero.FIL*Tablero.COL)-1);
+            do {
+                Tablero.NMINAS = Integer.parseInt(JOptionPane.showInputDialog("Nº Minas"));
+            } while (Tablero.NMINAS > (Tablero.FIL * Tablero.COL) - 1);
             Tablero tab = new Tablero();
             tab.crear();
             tab.minas();
@@ -117,21 +120,17 @@ public class MenuP implements ActionListener {
         }
 
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Facil")) {
-            fich.ordenar("facil");
-            fich.visualizar("facil");
+            Collections.sort(bd.select("Facil"));
         }
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Media")) {
-            fich.ordenar("medio");
-            fich.visualizar("medio");
+            Collections.sort(bd.select("Media"));
         }
 
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Dificil")) {
-            fich.ordenar("dificil");
-            fich.visualizar("dificil");
+            Collections.sort(bd.select("Dificil"));
         }
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Personalizado")) {
-            fich.ordenar("Personalizado");
-            fich.visualizar("Personalizado");
+            fich.visualizar(bd.select("Personalizado"));
         }
         if (e.getSource().equals(exit)) {
             System.exit(0);

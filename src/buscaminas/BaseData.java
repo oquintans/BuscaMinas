@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,18 +14,18 @@ import java.util.ArrayList;
  */
 public class BaseData {
 
-    Connection con = null;
+    static Connection con = null;
     Statement s = null;
     ResultSet rs = null;
-    String usur = "root", pass = "root";
+    static String usur = "root", pass = "root";
 
-    public Connection conDerby() {
+    public static Connection conDerby() {
 
         try {
             //Cargar Driver
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             //Conectar a la base en derby
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/BuscaminasDB", usur, pass);
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/BuscaMinas", usur, pass);
             //Confirmamos conexion
             System.out.println("Conexión establecida con el servidor Derby.");
         } catch (ClassNotFoundException | SQLException ex) {
@@ -33,30 +34,35 @@ public class BaseData {
         return con;
     }
 
-    public ArrayList select() {
-        ArrayList<Score> aux = new ArrayList();
+    public ArrayList select(String dif) {
+        ArrayList<Score> scoreBoard = new ArrayList<>();
         try {
             //Declarar consulta
             s = con.createStatement();
             //Ejecutar consulta
-            rs = s.executeQuery("select * from score");
+            rs = s.executeQuery("select nombre,tiempo from Score where dificultad='" + dif + "'");
             while (rs.next()) {
-                aux.add(new Score(
+                scoreBoard.add(new Score(
                         rs.getString("nombre"),
                         Integer.parseInt(rs.getString("tiempo"))));
             }
+//            String aux = "";
+//            for (int j = 0; j < scoreBoard.size(); j++) {
+//                aux = aux + scoreBoard.get(j).getNombre() + " -----> " + scoreBoard.get(j).getTiempo() + " segundos.\n";
+//            }
+//            JOptionPane.showMessageDialog(null, aux, "mejores tiempos", JOptionPane.PLAIN_MESSAGE, Tablero.boom);
         } catch (SQLException ex) {
             System.out.println("ERROR ---> " + ex);
         }
-        return aux;
+        return scoreBoard;
     }
 
-    public void insert(int coda, String nomb, int nota) {
+    public void insert(int tiempo, String nomb, String dif) {
         try {
             //Declarar consulta
             s = con.createStatement();
             //Ejecutar consulta
-            s.executeUpdate("INSERT INTO alumnos values ('" + nomb + "'," + nota + ')');
+            s.executeUpdate("INSERT INTO Score values ('" + nomb + "'," + tiempo + ",'" + dif + "')");
             //Confirmacion
             System.out.println("Inserción realizada");
         } catch (SQLException ex) {

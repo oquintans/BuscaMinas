@@ -25,7 +25,6 @@ import javax.swing.JOptionPane;
 @SuppressWarnings("rawtypes")
 public class Ficheros {
 
-    
     PrintWriter fich;
     Scanner sc;
     String nombF = "archivos/scores/ScoreBoardF.txt";
@@ -59,35 +58,13 @@ public class Ficheros {
         }
     }
 
-    public void visualizar(String dif) {
-        scoreBoard = new ArrayList<>();
-        String nomb;
-        if (dif.equalsIgnoreCase("Facil")) {
-            nomb = nombF;
-        } else if (dif.equalsIgnoreCase("Medio")) {
-            nomb = nombM;
-        } else {
-            nomb = nombD;
+    public void visualizar(ArrayList<Score> scoreBoard) {
+        String aux = "";
+        for (int j = 0; j < scoreBoard.size(); j++) {
+            aux = aux + scoreBoard.get(j).getNombre() + " -----> " + scoreBoard.get(j).getTiempo() + " segundos.\n";
         }
-        try {
-            String aux = "";
-            sc = new Scanner(new File(nomb)).useDelimiter(delim);
-            while (sc.hasNextLine()) {
-                linea = sc.nextLine();
-                String[] l = linea.split(",");
-                for (int i = 0; i < l.length; i += 2) {
-                    scoreBoard.add(new Score(l[i], Integer.parseInt(l[i + 1])));
-                }
-            }
-            for (int j = 0; j < scoreBoard.size(); j++) {
-                aux = aux + scoreBoard.get(j).getNombre() + " -----> " + scoreBoard.get(j).getTiempo() + " segundos.\n";
-            }
-            JOptionPane.showMessageDialog(null, aux, "mejores tiempos", JOptionPane.PLAIN_MESSAGE, Tablero.boom);
-        } catch (IOException ex) {
-            Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            sc.close();
-        }
+        JOptionPane.showMessageDialog(null, aux, "mejores tiempos", JOptionPane.PLAIN_MESSAGE, Tablero.boom);
+
     }
 
     public void ordenar(String dif) {
