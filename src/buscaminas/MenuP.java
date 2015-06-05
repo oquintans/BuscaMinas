@@ -27,6 +27,7 @@ public class MenuP implements ActionListener {
         dificultad.addItem("Facil");
         dificultad.addItem("Media");
         dificultad.addItem("Dificil");
+        dificultad.addItem("Personalizado");
         begin = new JButton("Empezar Juego");
         begin.addActionListener(this);
         score = new JButton("Ver mejores tiempos");
@@ -51,7 +52,8 @@ public class MenuP implements ActionListener {
         if (e.getSource().equals(begin) && dificultad.getSelectedItem().toString().equals("Facil")) {
             Tablero.dificultad = "Facil";
             Tablero.NMINAS = 10;
-            Tablero.TAM = 10;
+            Tablero.FIL = 10;
+            Tablero.COL = 10;
             Tablero tab = new Tablero();
             tab.crear();
             tab.minas();
@@ -66,7 +68,8 @@ public class MenuP implements ActionListener {
         if (e.getSource().equals(begin) && dificultad.getSelectedItem().toString().equals("Media")) {
             Tablero.dificultad = "Media";
             Tablero.NMINAS = 30;
-            Tablero.TAM = 15;
+            Tablero.FIL = 15;
+            Tablero.COL = 15;
             Tablero tab = new Tablero();
             tab.crear();
             tab.minas();
@@ -81,7 +84,24 @@ public class MenuP implements ActionListener {
         if (e.getSource().equals(begin) && dificultad.getSelectedItem().toString().equals("Dificil")) {
             Tablero.dificultad = "Dificil";
             Tablero.NMINAS = 60;
-            Tablero.TAM = 20;
+            Tablero.FIL = 20;
+            Tablero.COL = 20;
+            Tablero tab = new Tablero();
+            tab.crear();
+            tab.minas();
+            tab.visualizar();
+            Tablero.win = false;
+            CronometroThread.detenido = false;
+            CronometroThread.setSegundos(0);
+            CronometroThread.setMinutos(0);
+            CronometroThread.setHoras(0);
+            frame.dispose();
+        }
+        if (e.getSource().equals(begin) && dificultad.getSelectedItem().toString().equals("Personalizado")) {
+            Tablero.dificultad = "Personalizado";
+            Tablero.NMINAS = Integer.parseInt(JOptionPane.showInputDialog("Nº Minas"));
+            Tablero.FIL = Integer.parseInt(JOptionPane.showInputDialog("Nº Filas"));
+            Tablero.COL = Integer.parseInt(JOptionPane.showInputDialog("Nº Columnas"));
             Tablero tab = new Tablero();
             tab.crear();
             tab.minas();
@@ -106,6 +126,10 @@ public class MenuP implements ActionListener {
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Dificil")) {
             fich.ordenar("dificil");
             fich.visualizar("dificil");
+        }
+        if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Personalizado")) {
+            fich.ordenar("Personalizado");
+            fich.visualizar("Personalizado");
         }
         if (e.getSource().equals(exit)) {
             System.exit(0);

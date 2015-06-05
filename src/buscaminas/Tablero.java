@@ -3,16 +3,14 @@ package buscaminas;
 import java.awt.*;
 import java.awt.event.*;
 import static java.lang.Math.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 public class Tablero implements ActionListener, MouseListener {
 
-    public static int TAM = 20; //Tamaño de los arrays
+    public static int TAM = 20, FIL = 20, COL = 20; //Tamaño de los arrays
     private static final int MINA = 9;
     public static int NMINAS = 20;
-    private final int[][] tab = new int[TAM][TAM]; //Matriz tablero
+    private final int[][] tab = new int[FIL][COL]; //Matriz tablero
     private static JFrame ventana;
     public static String dificultad;
     static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/Icono.png"));
@@ -46,7 +44,7 @@ public class Tablero implements ActionListener, MouseListener {
 
         ventana.setVisible(true);
         ventana.setIconImage(icono.getImage());
-        botonMatriz = new JButton[TAM][TAM];
+        botonMatriz = new JButton[FIL][COL];
         ventana.add(new CronometroThread());
         ventana.getContentPane().add(time(), BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
@@ -76,10 +74,10 @@ public class Tablero implements ActionListener, MouseListener {
 
     private JPanel creaPanelBotones() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(TAM, TAM, 0, 0));
+        panel.setLayout(new GridLayout(FIL, COL, 0, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        for (int i = 0; i < TAM; i++) {
-            for (int j = 0; j < TAM; j++) {
+        for (int i = 0; i < FIL; i++) {
+            for (int j = 0; j < COL; j++) {
                 botonMatriz[i][j] = new JButton();
                 botonMatriz[i][j].addActionListener(this);
                 botonMatriz[i][j].addMouseListener(this);
@@ -102,8 +100,8 @@ public class Tablero implements ActionListener, MouseListener {
     }
 
     public void limpiarTablero() {
-        for (int f = 0; f < TAM; f++) {
-            for (int c = 0; c < TAM; c++) {
+        for (int f = 0; f < FIL; f++) {
+            for (int c = 0; c < COL; c++) {
                 botonMatriz[f][c].setText(null);
             }
         }
@@ -146,8 +144,8 @@ public class Tablero implements ActionListener, MouseListener {
                 cont = false;
                 aux1[i] = 0;
                 aux2[i] = 0;
-                posM1 = (int) (Math.random() * (TAM));
-                posM2 = (int) (Math.random() * (TAM));
+                posM1 = (int) (Math.random() * (FIL));
+                posM2 = (int) (Math.random() * (COL));
 
                 for (int j = 0; j < aux1.length - 1; j++) {
                     if (aux1[j] == posM1 && aux2[j] == posM2) {
@@ -163,7 +161,7 @@ public class Tablero implements ActionListener, MouseListener {
             //¿Porque hay dos "if" o incluso 3? para que no salten errores de outOfBounds al poner minas en los extremos del tablero.
             System.out.println(posM1 + " " + posM2);
             tab[posM1][posM2] = MINA; //MINA = 9
-            if (posM1 != TAM - 1) {
+            if (posM1 != FIL - 1) {
                 if (tab[posM1 + 1][posM2] != MINA) {
                     tab[posM1 + 1][posM2] = tab[posM1 + 1][posM2] + 1;
                 }
@@ -183,7 +181,7 @@ public class Tablero implements ActionListener, MouseListener {
                  0 0 0
                  */
             }
-            if (posM2 != TAM - 1) {
+            if (posM2 != COL - 1) {
                 if (tab[posM1][posM2 + 1] != MINA) {
                     tab[posM1][posM2 + 1] = tab[posM1][posM2 + 1] + 1;
                 }
@@ -204,7 +202,7 @@ public class Tablero implements ActionListener, MouseListener {
                  0 0 0
                  */
             }
-            if (posM1 != TAM - 1) {
+            if (posM1 != FIL - 1) {
                 if (posM2 != 0) {
                     if (tab[posM1 + 1][posM2 - 1] != MINA) {
                         tab[posM1 + 1][posM2 - 1] = tab[posM1 + 1][posM2 - 1] + 1;
@@ -216,8 +214,8 @@ public class Tablero implements ActionListener, MouseListener {
                      */
                 }
             }
-            if (posM1 != TAM - 1) {
-                if (posM2 != TAM - 1) {
+            if (posM1 != FIL - 1) {
+                if (posM2 != COL - 1) {
                     if (tab[posM1 + 1][posM2 + 1] != MINA) {
                         tab[posM1 + 1][posM2 + 1] = tab[posM1 + 1][posM2 + 1] + 1;
                     }
@@ -241,7 +239,7 @@ public class Tablero implements ActionListener, MouseListener {
                 }
             }
             if (posM1 != 0) {
-                if (posM2 != TAM - 1) {
+                if (posM2 != COL - 1) {
                     if (tab[posM1 - 1][posM2 + 1] != MINA) {
                         tab[posM1 - 1][posM2 + 1] = tab[posM1 - 1][posM2 + 1] + 1;
                     }
@@ -274,7 +272,7 @@ public class Tablero implements ActionListener, MouseListener {
         bVolver.setEnabled(true);
         CronometroThread.detenido = true;
         CronometroThread.crono_hilo.suspend();
-       // CronometroThread.crono_hilo.stop();
+        // CronometroThread.crono_hilo.stop();
         System.out.println(CronometroThread.crono_hilo.isAlive());
         win = false;
         loose = true;
@@ -293,13 +291,13 @@ public class Tablero implements ActionListener, MouseListener {
             contBanderaBuena = 0;
 
         }
-        for (int i = 0; i < TAM; i++) {
-            for (int j = 0; j < TAM; j++) {
+        for (int i = 0; i < FIL; i++) {
+            for (int j = 0; j < COL; j++) {
                 //enseñamos minas you lose
                 if (evBoton.equals(botonMatriz[i][j]) && tab[i][j] == MINA) {
                     botonMatriz[i][j].setIcon(icono);
-                    for (int k = 0; k < TAM; k++) {
-                        for (int l = 0; l < TAM; l++) {
+                    for (int k = 0; k < FIL; k++) {
+                        for (int l = 0; l < COL; l++) {
                             if (tab[k][l] == MINA) {
                                 botonMatriz[k][l].setIcon(icono);
                                 time.acabaJuego();
@@ -354,31 +352,30 @@ public class Tablero implements ActionListener, MouseListener {
                 }
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
-                  
-                        win = false;
-                        loose = false;
-                        CronometroThread.detenido = false;
-                        CronometroThread.setSegundos(0);
-                        CronometroThread.setMinutos(0);
-                        CronometroThread.setHoras(0);
-                        CronometroThread.crono_hilo.resume();
-                        // CronometroThread ct=new CronometroThread();
-                        botonMatriz[i][j].setEnabled(true);
-                        this.limpiarTablero();
-                        this.crear();
-                        botonMatriz[i][j].setIcon(null);
-                        botonMatriz[i][j].setBackground(null);
-                        this.minas();
-                        contador = 0;
-                        contBandera = 0;
-                        contBanderaBuena = 0;
-                        bVolver.setEnabled(false);
-                   
+
+                    win = false;
+                    loose = false;
+                    CronometroThread.detenido = false;
+                    CronometroThread.setSegundos(0);
+                    CronometroThread.setMinutos(0);
+                    CronometroThread.setHoras(0);
+                    CronometroThread.crono_hilo.resume();
+                    // CronometroThread ct=new CronometroThread();
+                    botonMatriz[i][j].setEnabled(true);
+                    this.limpiarTablero();
+                    this.crear();
+                    botonMatriz[i][j].setIcon(null);
+                    botonMatriz[i][j].setBackground(null);
+                    this.minas();
+                    contador = 0;
+                    contBandera = 0;
+                    contBanderaBuena = 0;
+                    bVolver.setEnabled(false);
 
                 }
-                if (contador == ((TAM * TAM) - NMINAS) && tab[i][j] == MINA) {
-                    for (int k = 0; k < TAM; k++) {
-                        for (int l = 0; l < TAM; l++) {
+                if (contador == ((FIL * COL) - NMINAS) && tab[i][j] == MINA) {
+                    for (int k = 0; k < FIL; k++) {
+                        for (int l = 0; l < COL; l++) {
                             botonMatriz[k][l].setEnabled(false);
                             botonMatriz[k][l].setText(null);
                             if (tab[k][l] == MINA) {
@@ -389,7 +386,7 @@ public class Tablero implements ActionListener, MouseListener {
                 }
             }
         }
-        if (contador == ((TAM * TAM) - NMINAS) && ev.getSource() != bVolver && win == false) {
+        if (contador == ((FIL * COL) - NMINAS) && ev.getSource() != bVolver && win == false) {
             this.ganar();
         }
     }
@@ -398,8 +395,8 @@ public class Tablero implements ActionListener, MouseListener {
         if (contador == 1) {
             time.empiezaJuego();
         }
-        for (int i2 = max(0, i - 1); i2 < min(TAM, i + 2); i2++) {
-            for (int j2 = max(0, j - 1); j2 < min(TAM, j + 2); j2++) {
+        for (int i2 = max(0, i - 1); i2 < min(FIL, i + 2); i2++) {
+            for (int j2 = max(0, j - 1); j2 < min(COL, j + 2); j2++) {
                 if (botonMatriz[i2][j2].isEnabled()) {
                     botonMatriz[i2][j2].setText(String.valueOf(tab[i2][j2]));
                     botonMatriz[i2][j2].setEnabled(false);
@@ -444,8 +441,8 @@ public class Tablero implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        for (int i = 0; i < TAM; i++) {
-            for (int j = 0; j < TAM; j++) {
+        for (int i = 0; i < FIL; i++) {
+            for (int j = 0; j < COL; j++) {
                 if (e.isMetaDown() && botonMatriz[i][j].equals(e.getSource()) && botonMatriz[i][j].isEnabled() && contBandera + contBanderaBuena < NMINAS && loose == false) {
                     botonMatriz[i][j].setIcon(bandera);
                     botonMatriz[i][j].setEnabled(false);
