@@ -8,7 +8,7 @@ public class CronometroThread extends JPanel implements Runnable {
     private static final long serialVersionUID = 3287496534931916605L;
     //Atributos 
     static Thread crono_hilo = null;
-    private final boolean sw = true;
+    private boolean sw = true;
     static boolean detenido = false;
     private static int horas;
     private static int minutos;
@@ -45,8 +45,12 @@ public class CronometroThread extends JPanel implements Runnable {
         mostrarInfoCrono();
 
         crono_hilo = new Thread(this);
-        
+
         crono_hilo.start();
+    }
+
+    public void setSw(boolean sw) {
+        this.sw = sw;
     }
 
     public static void paraCrono() throws InterruptedException {

@@ -53,6 +53,7 @@ public class Tablero implements ActionListener, MouseListener {
         ventana.setMinimumSize(new Dimension(800, 600));
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
+        time.empiezaJuego();
         ventana.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent ev) {
@@ -346,10 +347,7 @@ public class Tablero implements ActionListener, MouseListener {
                     }
 
                 }
-                //primer boton que tocas , empieza el juego
-                if (contador == 1) {
-                    time.empiezaJuego();
-                }
+
                 //new game set enabled pasa a true y contador a 0
                 if (bLimpiar.equals(evBoton)) {
 

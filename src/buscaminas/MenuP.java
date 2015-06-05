@@ -99,9 +99,11 @@ public class MenuP implements ActionListener {
         }
         if (e.getSource().equals(begin) && dificultad.getSelectedItem().toString().equals("Personalizado")) {
             Tablero.dificultad = "Personalizado";
-            Tablero.NMINAS = Integer.parseInt(JOptionPane.showInputDialog("Nº Minas"));
             Tablero.FIL = Integer.parseInt(JOptionPane.showInputDialog("Nº Filas"));
             Tablero.COL = Integer.parseInt(JOptionPane.showInputDialog("Nº Columnas"));
+            do{
+            Tablero.NMINAS = Integer.parseInt(JOptionPane.showInputDialog("Nº Minas"));            
+            }while(Tablero.NMINAS>(Tablero.FIL*Tablero.COL)-1);
             Tablero tab = new Tablero();
             tab.crear();
             tab.minas();
