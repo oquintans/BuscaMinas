@@ -24,14 +24,13 @@ public class Tablero implements ActionListener, MouseListener {
     ScoreTime time = new ScoreTime();
     CronometroThread cr;
     Ficheros fich;
-    public static boolean win = false, loose = false;
+    public static boolean win, loose;
 
     public Tablero() {
         // cr = new CronometroThread();
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         ventana = new JFrame();
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         if ("Facil".equals(dificultad)) {
             ventana.setSize(800, 600);
             ventana.setResizable(false);
@@ -44,7 +43,8 @@ public class Tablero implements ActionListener, MouseListener {
             ventana.setSize(1200, 720);
             ventana.setResizable(false);
         }
-
+        win = false;
+        loose = false;
         ventana.setVisible(true);
         ventana.setIconImage(icono.getImage());
         botonMatriz = new JButton[FIL][COL];
@@ -52,7 +52,6 @@ public class Tablero implements ActionListener, MouseListener {
         ventana.getContentPane().add(time(), BorderLayout.NORTH);
         ventana.getContentPane().add(creaPanelBotones(), BorderLayout.CENTER);
         ventana.getContentPane().add(creaPanelJuegoNuevo(), BorderLayout.SOUTH);
-        //ventana.pack();
         ventana.setMinimumSize(new Dimension(800, 600));
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
@@ -61,6 +60,7 @@ public class Tablero implements ActionListener, MouseListener {
             @Override
             public void windowClosing(WindowEvent ev) {
                 ventana.dispose();
+                MenuP b2Menu = new MenuP();
             }
         });
     }
