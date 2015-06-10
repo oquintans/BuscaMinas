@@ -1,5 +1,6 @@
 package buscaminas;
 
+import static buscaminas.Tablero.dificultad;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -36,8 +37,14 @@ public class CronometroThread extends JPanel implements Runnable {
         segundos = 0;
         lbl_digitos = new JLabel[8];
         //this.setLayout();
-        this.setBounds(350, 5, 100, 20);
 
+        if ("Media".equals(dificultad)) {
+            this.setBounds(450, 5, 100, 20);
+        } else if ("Dificil".equals(dificultad)) {
+            this.setBounds(525, 5, 100, 20);
+        } else {
+            this.setBounds(350, 5, 100, 20);
+        }
         for (int i = 0; i < lbl_digitos.length; i++) {
             lbl_digitos[i] = new JLabel();
             this.add(lbl_digitos[i]);

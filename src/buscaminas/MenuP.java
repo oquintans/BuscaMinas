@@ -1,6 +1,5 @@
 package buscaminas;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
@@ -42,7 +41,7 @@ public class MenuP implements ActionListener {
         panel.add(score);
         panel.add(exit);
         frame.add(panel);
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

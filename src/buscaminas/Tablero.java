@@ -34,12 +34,15 @@ public class Tablero implements ActionListener, MouseListener {
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         if ("Facil".equals(dificultad)) {
             ventana.setSize(800, 600);
+            ventana.setResizable(false);
         }
         if ("Media".equals(dificultad)) {
             ventana.setSize(1024, 720);
+            ventana.setResizable(false);
         }
         if ("Dificil".equals(dificultad)) {
             ventana.setSize(1200, 720);
+            ventana.setResizable(false);
         }
 
         ventana.setVisible(true);
