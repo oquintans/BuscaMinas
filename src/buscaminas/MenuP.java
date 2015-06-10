@@ -10,7 +10,7 @@ public class MenuP implements ActionListener {
 
     Ficheros fich = new Ficheros();
     private final JFrame frame;
-    private final JPanel panel;
+    private final Fondo panel;
     private final JLabel eDificultad;
     private final JComboBox dificultad;
     private final JButton begin, score, exit;
@@ -21,10 +21,9 @@ public class MenuP implements ActionListener {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         frame = new JFrame("BUSCAMINAS");
-        frame.setSize(400, 400);
+        frame.setSize(300, 450);
         frame.setIconImage(Tablero.icono.getImage());
-        panel = new JPanel();
-        panel.setBackground(Color.LIGHT_GRAY);
+        panel = new Fondo("/imagenes/minefield.jpg");
         eDificultad = new JLabel("Selecciona una dificultad");
         dificultad = new JComboBox();
         dificultad.addItem("Facil");
@@ -43,7 +42,7 @@ public class MenuP implements ActionListener {
         panel.add(score);
         panel.add(exit);
         frame.add(panel);
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,17 +119,17 @@ public class MenuP implements ActionListener {
         }
 
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Facil")) {
-            Collections.sort(bd.select("Facil"));
+            bd.select("Facil");
         }
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Media")) {
-            Collections.sort(bd.select("Media"));
+            bd.select("Media");
         }
 
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Dificil")) {
-            Collections.sort(bd.select("Dificil"));
+            bd.select("Dificil");
         }
         if (e.getSource().equals(score) && dificultad.getSelectedItem().toString().equals("Personalizado")) {
-            fich.visualizar(bd.select("Personalizado"));
+            bd.select("Personalizado");
         }
         if (e.getSource().equals(exit)) {
             System.exit(0);
