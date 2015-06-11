@@ -13,7 +13,7 @@ public class MenuP implements ActionListener {
     private final JLabel eDificultad;
     private final JComboBox dificultad;
     private final JButton begin, score, exit;
-    BaseData bd;
+    BaseData bd = new BaseData();
 
     public MenuP() {
         BaseData.conDerby();

@@ -13,7 +13,7 @@ public class Tablero implements ActionListener, MouseListener {
     private final int[][] tab = new int[FIL][COL]; //Matriz tablero
     private static JFrame ventana;
     public static String dificultad;
-    static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/icono/Icono.png"));
+    static final ImageIcon icono = new ImageIcon(Tablero.class.getResource("/imagenes/mina.gif"));
     static final ImageIcon boom = new ImageIcon(Tablero.class.getResource("/icono/sonriente-carita.gif"));
     private static final ImageIcon bomba = new ImageIcon(Tablero.class.getResource("/imagenes/Boom.png"));
     private static final ImageIcon bandera = new ImageIcon(Tablero.class.getResource("/imagenes/bandeira.png"));
